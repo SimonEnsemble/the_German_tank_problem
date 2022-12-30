@@ -476,15 +476,17 @@ function viz_all(m, Ω, k)
 	)
 	ns = 0:Ω+viz_over_Ω
 	α = 0.2
+	# manual trunk
+	hlines!(0.0, color="black")
 	# prior
 	stem!(ns, [prior(n, Ω) for n in ns],
-		trunkcolor="black", stemcolor=(colors["prior"], α), color=colors["prior"], label="prior")
+		trunkcolor=("black", 0.0), stemcolor=(colors["prior"], α), color=colors["prior"], label="prior")
 	# likelihood
 	stem!(ns, [likelihood(m, n, k) for n in ns],
-		trunkcolor="black", stemcolor=(colors["likelihood"], α), color=colors["likelihood"], label="likelihood")
+		trunkcolor=("black", 0.0), stemcolor=(colors["likelihood"], α), color=colors["likelihood"], label="likelihood")
 	# posterior
 	stem!(credibility[:, "n"], credibility[:, "posterior prob"],
-		trunkcolor="black", stemcolor=(colors["posterior"], α),
+		trunkcolor=("black", 0.0), stemcolor=(colors["posterior"], α),
 		color=colors["posterior"], label="posterior")
 	# ylims!(0, nothing)
 	xlims!(-0.5, maximum(ns)+0.5)
