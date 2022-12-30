@@ -50,12 +50,7 @@
 \maketitle
 
 \begin{abstract}
-	The German tank problem has an interesting historical background and is an engaging problem in statistical estimation for the classroom.
-	The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. 
-	In this article, we outline the Bayesian approach to the German tank problem, 
-(i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and
-(ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution.
-
+	The German tank problem has an interesting historical background and is an engaging problem in statistical estimation for the classroom. The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. In this tutorial article, we outline the Bayesian approach to the German tank problem, (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and (ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution. We illustrate with an example. Finally, we survey other research problems that bear resemblance to the German tank problem.
 \end{abstract}
 
 \begin{figure}[h!]
@@ -130,7 +125,7 @@ Assuming all tanks in the population were equally likely to be captured, our obj
 In 1942, Alan Turing and Andrew Gleason discussed a variant of the German tank problem, ``how to best to estimate the total number of taxicabs in a town, having seen a random selection of their license numbers'', in a crowded restaurant in Washington DC \cite{hodges2014alan,hall2014alan}. 
 Today, with its interesting historical background \cite{ruggles1947empirical}, 
 the German tank problem is still a suitable conversation topic for dinners and %can still engage curious minds in both conversations at restaurants and in the classroom 
-serves as an intellectually engaging, challenging, and enjoyable problem to illustrate statistical estimation in the classroom \cite{johnson1994estimating,berg2021bayesian,mosteller1987fifty,downey2021think}.
+serves as an intellectually engaging, challenging, and enjoyable problem to illustrate combinatorics and statistical estimation in the classroom \cite{johnson1994estimating,berg2021bayesian,mosteller1987fifty,downey2021think}.
 
 \paragraph{Uncertainty quantification.}
 Any estimate of the tank population size $n$ from the data \data is subject to uncertainty, since we (presumably) have not captured \emph{all} of the tanks (ie., $k\neq n$, probably).  
@@ -139,7 +134,7 @@ Quantifying uncertainty in our estimate of the tank population size $n$ is impor
 \paragraph{Our contribution.}
 In this pedagogical article, we outline the Bayesian approach to the German tank problem, 
 (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and
-(ii) which provides an opportunity to incorporate prior information or beliefs about the tank population size into the solution.
+(ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution.
 
 
 \subsection{Survey of previous work on the German tank problem}
@@ -163,7 +158,7 @@ Scheaffer, Watkins, Gnanadesikan, and Witmer \cite{scheaffer2013activity} propos
 Berg \cite{berg2021bayesian} uses the German tank problem as a competition in the classroom.  
 
 \paragraph{The Bayesian approach.}
-Closely related to our paper, Roberts \cite{roberts1967informative} and H{\"o}hle and Held \cite{hohle2006bayesian} provide a Bayesian analysis of the German tank problem. They derive an analytical formula for the mean of the posterior distribution of the tank population size under an improper, uniform prior distribution. Andrews \cite{blogpost} outlines the Bayesian approach to the German tank problem in a blog post containing code in the R language.
+Closely related to our paper, Roberts \cite{roberts1967informative}, H{\"o}hle and Held \cite{hohle2006bayesian}, and Linden, Dose, and Toussaint \cite{von2014bayesian}, and Cocco, Monasson, and Zamponi \cite{cocco2022statistical} provide a Bayesian analysis of the German tank problem. They derive an analytical formula for the mean of the posterior distribution of the tank population size under an improper, uniform prior distribution. Andrews \cite{blogpost} outlines the Bayesian approach to the German tank problem in a blog post containing code in the R language.
 
 \paragraph{Generalizations/variants.}
 Goodman \cite{goodman1952serial,goodman1954some} poses a variant of the German tank problem where the initial serial number is not known; ie., where the $n$ tanks are inscribed with serial numbers $\{b+1, ..., n+b\}$ with $b$ and $n$ unknown. 
@@ -358,7 +353,7 @@ A suitable credible subset, which entertains multiple tank population sizes, is 
 \end{equation}
 In words, the $\alpha$-high-mass subset $\mathcal{H}_\alpha$ is the smallest to (i) contain at least a fraction $1-\alpha$ of the posterior mass of $N$ and (ii) ensure every tank population size belonging to the subset is more probable than all outside of it.
 
-\paragraph{Querying the posterior distribution.} We may find the posterior probability that the tank population size belongs to any set of interest by summing the posterior mass over it. Eg., the probability the tank population size exceeds some threshold $n^\prime$ that would alter military strategy is:
+\paragraph{Querying the posterior distribution.} We may find the posterior probability that the tank population size belongs to any set of interest by summing the posterior mass over it. Eg., the probability the tank population size exceeds some number $n^\prime$ is:
 \begin{equation}
 	\pi_{\text{posterior}}(N> n^\prime \mid M^{(k)}=m^{(k)}) = \sum_{n=n^\prime+1}^\infty \pi_{\text{posterior}}(N=n \mid M^{(k)}=m^{(k)}).
 \end{equation}
@@ -488,28 +483,20 @@ Such bias could arise eg.\ hypothetically, if older tanks with smaller serial nu
 % the Willliams paper?
 
 \paragraph{The German tank problem in other contexts.}
-The Bayesian probability theory to solve the German tank problem applies to other contexts, where, instead of tanks, we wish to estimate eg.: the number of taxicabs in a city \cite{grajalez2013great}, the number of accounts at a bank \cite{hohle2006bayesian}, the number of furniture pieces purchased by a university \cite{goodman1954some}, the number of aircraft operations at an airport \cite{mott2016estimation}, the extent of leaked classified government communications \cite{gill2015estimating}, the time needed to complete a project deadline \cite{fehlmann2017new}, the time-coverage of historical records of extreme events like floods \cite{prosdocimi2018german}, and generally, the maximum in a large data set \cite{gum2005estimating}. 
-%\end{itemize}
-%\begin{itemize}
-%	\item the number of taxicabs in a city \cite{grajalez2013great}
-%	\item the number of furniture pieces purchased by a university \cite{goodman1954some}
-%	\item the number of aircraft operations at an airport \cite{mott2016estimation}
-%	\item the extent of leaked classified government communications \cite{gill2015estimating}
-%	\item the time needed to complete a project deadline \cite{fehlmann2017new}
-%	\item the time-coverage of historical records of extreme events like floods \cite{prosdocimi2018german}
-%	\item generally, the maximum in a large data set \cite{gum2005estimating}. 
-%\end{itemize}
+The Bayesian probability theory to solve the German tank problem applies (perhaps, with modification) to many other contexts where we wish to estimate the size of some finite, hidden set \cite{cheng2020estimating}, eg.: the number of taxicabs in a city \cite{grajalez2013great}, the number of accounts at a bank \cite{hohle2006bayesian}, the number of furniture pieces purchased by a university \cite{goodman1954some}, the number of aircraft operations at an airport \cite{mott2016estimation}, the extent of leaked classified government communications \cite{gill2015estimating}, the time needed to complete a project deadline \cite{fehlmann2017new}, the time-coverage of historical records of extreme events like floods \cite{prosdocimi2018german}, 
+%the maximum in a large data set \cite{gum2005estimating},
+ the length of a short-tandem repeat allele \cite{tang2017profiling}, the size of a social network \cite{katzir2011estimating}, the number of cases in court \cite{wu2022augmenting}, the lifetime of a flower of a plant \cite{pearse2017statistical}, or the duration of existence of a species \cite{roberts2003did}.
 Mark and recapture methods in ecology to estimate the size of an animal population \cite{nichols1992capture,chao2001overview} are tangentially related to the German tank problem.
 
 \paragraph{The practice of inscribing sequential serial numbers on military equipment.}
 Germany adopted the practice of marking their military equipment with serial numbers and codes to trace the equipment/parts/components back to the manufacturer. However, the sequential nature of these serial numbers was exploited by the Allies to estimate their armament production. 
 % However, serial numbers on equipment are advantageous for (i) tracing faulty/defective equipment/parts back to the manufacturer for quality control and (ii) handling of spare parts. \cite{ruggles1947empirical} 
-To reduce vulnerability to serial number analysis for estimating production while maintaining advantages of tracing equipment back to the manufacturer, serial numbers and codes could be well-encrypted instead. 
+To reduce vulnerability to serial number analysis for estimating production while maintaining advantages of tracing equipment back to the manufacturer, serial numbers and codes could instead be obfuscated by eg.\ chaffing \cite{rivest1998chaffing}. 
 
 \section*{Data and code availability} The Julia \cite{bezanson2012julia} code to reproduce all of our visualizations drawn using Makie.jl \cite{DanischKrumbiegel2021} is available on Github at \url{github.com/SimonEnsemble/the_German_tank_problem}.
 
 \section*{Acknowledgements}
-Thanks to Bernhard Konrad for providing detailed feedback on the first draft.
+Thanks to Bernhard Konrad for providing detailed feedback on the first draft and to my students Gbenga Fabusola, Adrian Henle, and Paul Morris for feedback on the introduction. 
 
 \bibliography{refs}
 \bibliographystyle{unsrt}
