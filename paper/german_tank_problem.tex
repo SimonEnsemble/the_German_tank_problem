@@ -1,9 +1,13 @@
-\documentclass[11pt, oneside]{article}  
+%\documentclass[11pt, oneside]{article}  
+
+\documentclass[fleqn,10pt,lineno]{wlpeerj}
+
+
 \usepackage{geometry}  
 %\usepackage{nunito}
 \usepackage{cmbright}
 \geometry{letterpaper}   
-\usepackage{cite}
+%\usepackage{cite}
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 								% TeX will automatically convert eps --> pdf in pdflatex	
 \usepackage{tcolorbox}
@@ -39,9 +43,21 @@
 
 
 \title{A Bayesian treatment of the German tank problem}
-\author[]{Cory M. Simon}
-\affil[]{School of Chemical, Biological, and Environmental Engineering. Oregon State University. Corvallis, OR. USA. }
-\affil[]{\texttt{cory.simon@oregonstate.edu}}
+\author[1]{Cory M. Simon}
+\affil[1]{School of Chemical, Biological, and Environmental Engineering. Oregon State University. Corvallis, OR. USA. }
+\corrauthor[1]{Cory M. Simon}{cory.simon@oregonstate.edu}
+%\affil[]{\texttt{cory.simon@oregonstate.edu}}
+
+% \keywords{Keyword1, Keyword2, Keyword3}
+
+\begin{abstract}
+	The German tank problem has an interesting historical background and is an engaging problem in statistical estimation for the classroom. The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. In this tutorial article, we outline the Bayesian approach to the German tank problem, (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and (ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution. We illustrate with an example. Finally, we survey other research problems that bear resemblance to the German tank problem.
+\end{abstract}
+
+\flushbottom
+\maketitle
+\thispagestyle{empty}
+
 
 %\affil[*]{}
 \date{}							% Activate to display a given date or no date
@@ -49,17 +65,14 @@
 \begin{document}
 \maketitle
 
-\begin{abstract}
-	The German tank problem has an interesting historical background and is an engaging problem in statistical estimation for the classroom. The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. In this tutorial article, we outline the Bayesian approach to the German tank problem, (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and (ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution. We illustrate with an example. Finally, we survey other research problems that bear resemblance to the German tank problem.
-\end{abstract}
+
 
 \begin{figure}[h!]
-\centering
- \includegraphics[width=0.45\textwidth]{the_sample.pdf}
- \includegraphics[width=0.45\textwidth]{all.pdf}
+%	\centering
+ \includegraphics[width=0.4\textwidth]{the_sample.pdf}
+ \includegraphics[width=0.4\textwidth]{all.pdf}
 \end{figure}
 
-\newpage
 
 \section{Background}
 
@@ -124,8 +137,7 @@ Assuming all tanks in the population were equally likely to be captured, our obj
 % While speculation that  the earliest variant of the German tank problem \cite{hall2014alan}
 In 1942, Alan Turing and Andrew Gleason discussed a variant of the German tank problem, ``how to best to estimate the total number of taxicabs in a town, having seen a random selection of their license numbers'', in a crowded restaurant in Washington DC \cite{hodges2014alan,hall2014alan}. 
 Today, with its interesting historical background \cite{ruggles1947empirical}, 
-the German tank problem is still a suitable conversation topic for dinners and %can still engage curious minds in both conversations at restaurants and in the classroom 
-serves as an intellectually engaging, challenging, and enjoyable problem to illustrate combinatorics and statistical estimation in the classroom \cite{johnson1994estimating,berg2021bayesian,mosteller1987fifty,downey2021think}.
+the German tank problem is still a suitable conversation topic for dinners and serves as an intellectually engaging, challenging, and enjoyable problem to illustrate combinatorics and statistical estimation in the classroom \cite{johnson1994estimating,berg2021bayesian,mosteller1987fifty,downey2021think}.
 
 \paragraph{Uncertainty quantification.}
 Any estimate of the tank population size $n$ from the data \data is subject to uncertainty, since we (presumably) have not captured \emph{all} of the tanks (ie., $k\neq n$, probably).  
