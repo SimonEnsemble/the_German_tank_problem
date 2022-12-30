@@ -142,7 +142,7 @@ In this pedagogical article, we outline the Bayesian approach to the German tank
 (ii) which provides an opportunity to incorporate prior information or beliefs about the tank population size into the solution.
 
 
-\subsection{Survey of related work on the German tank problem}
+\subsection{Survey of previous work on the German tank problem}
 \paragraph{The frequentist approach.}
 Border \cite{bordernotes} calls the German tank problem a "weird case" in frequentist estimation. The maximum likelihood estimator of the tank population size $n$ is the maximum serial number observed among the $k$ captured tanks, $m^{(k)}:=\max_{i \in \{1, ..., k\}} s_i$. This is a biased estimator, as certainly $m^{(k)} \leq n$.
 
@@ -484,10 +484,11 @@ Such bias could arise eg.\ hypothetically, if older tanks with smaller serial nu
 %\end{itemize}
 
 % multiple factories with overlapping serial numbers.
+% https://www.biorxiv.org/content/10.1101/2021.07.06.451319v1.full.pdf solved here?
 % the Willliams paper?
 
 \paragraph{The German tank problem in other contexts.}
-The Bayesian probability theory to solve the German tank problem applies to other contexts, where, instead of tanks, we wish to estimate eg.: the number of taxicabs in a city \cite{grajalez2013great}, the number of furniture pieces purchased by a university \cite{goodman1954some}, the number of aircraft operations at an airport \cite{mott2016estimation}, the extent of leaked classified government communications \cite{gill2015estimating}, the time needed to complete a project deadline \cite{fehlmann2017new}, the time-coverage of historical records of extreme events like floods \cite{prosdocimi2018german}, and generally, the maximum in a large data set \cite{gum2005estimating}. 
+The Bayesian probability theory to solve the German tank problem applies to other contexts, where, instead of tanks, we wish to estimate eg.: the number of taxicabs in a city \cite{grajalez2013great}, the number of accounts at a bank \cite{hohle2006bayesian}, the number of furniture pieces purchased by a university \cite{goodman1954some}, the number of aircraft operations at an airport \cite{mott2016estimation}, the extent of leaked classified government communications \cite{gill2015estimating}, the time needed to complete a project deadline \cite{fehlmann2017new}, the time-coverage of historical records of extreme events like floods \cite{prosdocimi2018german}, and generally, the maximum in a large data set \cite{gum2005estimating}. 
 %\end{itemize}
 %\begin{itemize}
 %	\item the number of taxicabs in a city \cite{grajalez2013great}
@@ -506,7 +507,6 @@ Germany adopted the practice of marking their military equipment with serial num
 To reduce vulnerability to serial number analysis for estimating production while maintaining advantages of tracing equipment back to the manufacturer, serial numbers and codes could be well-encrypted instead. 
 
 \section*{Data and code availability} The Julia \cite{bezanson2012julia} code to reproduce all of our visualizations drawn using Makie.jl \cite{DanischKrumbiegel2021} is available on Github at \url{github.com/SimonEnsemble/the_German_tank_problem}.
-\cms{add link}
 
 \section*{Acknowledgements}
 Thanks to Bernhard Konrad for providing detailed feedback on the first draft.

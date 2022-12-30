@@ -20,10 +20,6 @@ import AlgebraOfGraphics as aog
 begin
 	aog.set_aog_theme!(fonts=[aog.firasans("Light"), aog.firasans("Light")])
 	update_theme!(fontsize=20, linewidth=3, resolution=(500, 400))
-	
-	if ! isdir("figs")
-		mkdir("figs")
-	end
 end
 
 # ╔═╡ 90816107-f479-4727-b8e9-405825c7c68f
@@ -87,7 +83,7 @@ function viz_tank_capture(s::Vector{Int}; savename=nothing,
 			end
 			sᵢ = s[i_s]
 			
-			the_label = rich("s", subscript("$i"), "=$sᵢ")
+			the_label = rich("s", subscript("$i_s"), "=$sᵢ")
 			ax  = Axis(fig[i, j], 
 				aspect=DataAspect(), 
 				yreversed=true, 
@@ -121,11 +117,11 @@ function viz_tank_capture(s::Vector{Int}; savename=nothing,
 		)
 		xlims!(ax2, 0.5, n+0.5)
 		ylims!(ax2, -1.1, 1)
-		rowsize!(fig.layout, n_rows+1, Relative(0.4 / n_rows + (n_rows - 1) *0.015))
+		rowsize!(fig.layout, n_rows+1, Relative(0.41 / n_rows + (n_rows - 1) *0.014))
 	end
 	resize_to_layout!(fig)
 	if ! isnothing(savename)
-		save("figs/$savename.pdf", fig)
+		save("paper/$savename.pdf", fig)
 	end
 	fig
 end
@@ -177,7 +173,7 @@ function viz_prior(Ω)
 	_viz_prior(ax, Ω, viz_over_Ω)
 	# ylims!(0, nothing)
 	xlims!(-0.5, Ω+viz_over_Ω+0.5)
-	save("figs/prior.pdf", fig)
+	save("paper/prior.pdf", fig)
 	fig
 end
 
@@ -222,7 +218,7 @@ function viz_likelihood(m, k)
 		trunkcolor="black", stemcolor=colors["likelihood"], color=colors["likelihood"])
 	# ylims!(0, nothing)
 	xlims!(-0.5, maximum(ns)+0.5)
-	save("figs/likelihood.pdf", fig)
+	save("paper/likelihood.pdf", fig)
 	fig
 end
 
@@ -449,7 +445,7 @@ function viz_posterior(m, Ω, k; savename::String="posterior", kwargs...)
 				)
 	)
 	_viz_posterior!(ax, fig, m, Ω, k; kwargs...)
-	save("figs/$(savename)_$Ω.pdf", fig)
+	save("paper/$(savename)_$Ω.pdf", fig)
 	return fig
 end
 
@@ -491,7 +487,7 @@ function viz_all(m, Ω, k)
 	# ylims!(0, nothing)
 	xlims!(-0.5, maximum(ns)+0.5)
 	axislegend()
-	save("figs/all.pdf", fig)
+	save("paper/all.pdf", fig)
 	fig
 end
 
@@ -519,7 +515,7 @@ function viz_post_sensitivity_to_prior(m::Int, n_maxs::Vector{Int}, k::Int;
 	end
 	linkyaxes!(axs...)
 	linkxaxes!(axs...)
-	save("figs/posterior_prior_sensitivity.pdf", fig)
+	save("paper/posterior_prior_sensitivity.pdf", fig)
 	return fig
 end
 
@@ -566,7 +562,7 @@ function check_posterior(m::Int, Ω::Int, k::Int, s::Vector{Int})
 		color=colors["data"], label=rich("data, s", superscript("(k=$k)"))
 	)
 	axislegend(rich("n", subscript("max"), "=$Ω"))
-	save("figs/posterior_check.pdf", fig)
+	save("paper/posterior_check.pdf", fig)
 	fig
 end
 
