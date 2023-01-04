@@ -301,14 +301,16 @@ Thus:
  
 \subsection{The prior distribution}
 The \emph{prior probability mass function} $\pi_{\text{prior}}(N=n)$ expresses a combination of our subjective beliefs and objective knowledge about the total number of tanks $N$ before the data \data are collected and considered. 
-Context-dependent, the prior mass function we impose on $N$ can vary in the amount of uncertainty it admits about the tank population size (measured by eg.\ entropy \cite{murphy2022probabilistic}). 
 
-Prior distributions can be loosely classified as informative, weakly informative, or diffuse \cite{van2021bayesian}.
-If we do not possess prior information about the tank population size, we adopt the principle of indifference and impose a diffuse prior to "let the data speak for itself" \cite{downey2021think}, eg.\ a uniform distribution over a set of feasible tank population sizes. 
+The prior mass function we impose on $N$ is context-dependent. 
+Based on the amount of uncertainty it admits about the tank population size (measured by eg.\ entropy \cite{murphy2022probabilistic}),
+prior distributions roughly belong to one of the ordinal categories of informative, weakly informative, or diffuse \cite{van2021bayesian}.
+If we do not possess prior information about the tank population size, we adopt the principle of indifference and impose a diffuse prior eg.\ a uniform distribution over a set of feasible tank population sizes. 
 On the other hand, an informative prior might concentrate its mass around some estimate of the total number of tanks obtained through other means. 
-An informative prior will have a larger impact on the posterior mass function of $N$ than a diffuse one \cite{van2021bayesian}. 
 
-Generally, as the number of captured tanks $k$ increases (decreases), we expect the prior mass function we impose to have a lesser (greater) influence on the posterior distribution \cite{downey2021think}.
+Looking forward to the posterior mass function of $N$, which balances the prior and the likelihood (the latter based on the data): 
+(1) an informative prior will have a larger impact on the posterior than a diffuse one \cite{van2021bayesian}, which "lets the data speak for itself" \cite{downey2021think};
+(2) generally, as the number of captured tanks $k$ increases (decreases), we expect the prior to have a smaller (larger) impact on the posterior \cite{downey2021think} as the data "overwhelms" the prior.
 
 \subsection{The posterior distribution}
 \label{sec:posterior}
