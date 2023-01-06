@@ -320,13 +320,14 @@ The \emph{posterior probability mass function} of $N$ assigns a probability to e
 The posterior distribution is a conditional distribution related to the likelihood and prior mass functions by Bayes' theorem:
 \begin{equation}
 	\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)}) = 
-	\frac{\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n) \pi_{\text{prior}}(N=n)}{\pi_{\text{data}}(S^{(k)}=s^{(k)})}, \label{eq:post}
+	\frac{\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n) \pi_{\text{prior}}(N=n)}{\pi_{\text{data}}(S^{(k)}=s^{(k)})}. \label{eq:post}
 \end{equation} 
-where the denominator is the probability of the data $s^{(k)}$:
+The denominator is the probability of the data $s^{(k)}$:
 \begin{equation}
 	\pi_{\text{data}}(S^{(k)}=s^{(k)})= \displaystyle \sum_{n^\prime=0}^\infty \pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n^\prime) \pi_{\text{prior}}(N=n^\prime). \label{eq:prob_data}
 \end{equation}
-We view $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$ as a probability mass function of $N$, since in practice we have $s^{(k)}$. Then, $\pi_{\text{data}}(S^{(k)}=s^{(k)})$ is just a normalizing factor for the numerator in eqn.~\ref{eq:post}. 
+We view $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$ as a probability mass function of $N$, since in practice we have $s^{(k)}$. 
+Then, $\pi_{\text{data}}(S^{(k)}=s^{(k)})$, which is independent of $n$, is just a normalizing factor for the numerator in eqn.~\ref{eq:post}. 
 
 Interpreting eqn.~\ref{eq:post}, the prior mass function of $N$ is \emph{updated}, in light of the data \data, to yield the posterior mass function of $N$. The posterior probability of $N=n$ is proportional to the product of the likelihood at and prior probability of $N=n$, a compromise between the likelihood and prior.
 
