@@ -1,6 +1,5 @@
-%\documentclass[11pt, oneside]{article}  
-
-\documentclass[fleqn,10pt,lineno]{wlpeerj}
+% \documentclass[11pt, oneside]{article}  
+\documentclass[fleqn,10pt]{wlpeerj}
 
 
 \usepackage{geometry}  
@@ -51,7 +50,7 @@
 % \keywords{Keyword1, Keyword2, Keyword3}
 
 \begin{abstract}
-	The German tank problem has an interesting historical background and is an engaging problem in statistical estimation for the classroom. The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. In this tutorial article, we outline the Bayesian approach to the German tank problem, (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and (ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution. We illustrate with an example. Finally, we survey problems in other contexts that bear resemblance to the German tank problem.
+	The German tank problem has an interesting historical background and is an engaging problem of statistical estimation for the classroom. The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. In this tutorial article, we outline the Bayesian approach to the German tank problem, (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and (ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution. We illustrate with an example. Finally, we survey problems in other contexts that resemble the German tank problem.
 \end{abstract}
 
 \flushbottom
@@ -77,20 +76,20 @@
 \section{Background}
 
 \subsection{History}
-To inform their military strategy during World War II (1939-1945), the Allies sought to estimate the rate of production of various military equipment (tanks, tires, rockets, etc.) by Germany.
+To inform their military strategy during World War II (1939-1945), the Allies sought to estimate Germany's rate of production of various military equipment (tanks, tires, rockets, etc.).
 Conventional methods to estimate armament production---including 
 (i) extrapolating data on prewar manufacturing capabilities, 
 (ii) obtaining reports from secret sources, and 
 (iii) interrogating prisoners of war---were unreliable and/or contradictory. 
 
 In 1943, British and American economic intelligence agencies exploited a German manufacturing practice in order to statistically estimate their armament production. 
-Germany marked their military equipment with serial numbers and codes for the date and/or place of manufacture to handle spare parts and trace faulty/defective equipment/parts back to the manufacturer for quality control.
-However, these markings on a captured sample of German equipment provided the Allies information about Germany's production of it.
+Specifically, Germany marked their military equipment with serial numbers and codes for the date and/or place of manufacture. Their intention was to facilitate handling spare parts and trace defective equipment/parts back to the manufacturer for quality control.
+However, these markings on a captured sample of German equipment conveyed information to the Allies about Germany's production of it.
 
 To estimate Germany's production of tanks, the Allies collected serial numbers on the chassis, engines, gearboxes, and bogie wheels of samples of tanks by inspecting captured tanks and examining captured records\footnote{Eg., captured records from tank repair depots listed serial numbers of the chassis and engine of repaired tanks, and records from divisional headquarters listed chassis serial numbers of tanks held by a specific unit.}. 
 Despite lacking an \emph{exhaustive} sample, the sequential nature of\footnote{
 Gearboxes on captured tanks, for example, were inscribed with serial numbers belonging to an unbroken sequence. Chassis serial numbers, on the other hand, were broken into blocks to distinguish models/designs, leaving gaps between the serial numbers assigned to them.
-} and patterns in these samples of serial numbers enabled the Allies to estimate Germany's tank production---postwar, we know, much more accurately than conventional American and British intelligence (Tab.~\ref{tab:success}).
+} and patterns in these samples of serial numbers enabled the Allies to estimate Germany's tank production---postwar, we know---much more accurately than conventional intelligence methods (Tab.~\ref{tab:success}).
 % While some components were labeled with serial numbers in discontinuous bands
 % Postwar, we know serial number analysis provided more accurate estimates of German tank production than the (over)estimates from conventional American and British intelligence (Tab.~\ref{tab:success}).
 
@@ -141,7 +140,7 @@ the German tank problem is still a suitable conversation topic for dinners and s
 
 \paragraph{Uncertainty quantification.}
 Any estimate of the tank population size $n$ from the data \data is subject to uncertainty, since we (presumably) have not captured \emph{all} of the tanks (ie., $k\neq n$, probably).  
-Quantifying uncertainty in our estimate of the tank population size $n$ is important because high-stakes military decisions may be made on its basis.
+Quantifying uncertainty in our estimate of $n$ is important because high-stakes military decisions may be made on its basis.
 
 \paragraph{Our contribution.}
 In this pedagogical article, we outline the Bayesian approach to the German tank problem, 
@@ -153,12 +152,12 @@ In this pedagogical article, we outline the Bayesian approach to the German tank
 \paragraph{The frequentist approach.}
 Border \cite{bordernotes} calls the German tank problem a "weird case" in frequentist estimation. The maximum likelihood estimator of the tank population size $n$ is the maximum serial number observed among the $k$ captured tanks, $m^{(k)}:=\max_{i \in \{1, ..., k\}} s_i$. This is a biased estimator, as certainly $m^{(k)} \leq n$.
 
-Goodman \cite{goodman1952serial,goodman1954some} derives the minimum-variance, unbiased point estimator of the tank population size
+Goodman \cite{goodman1952serial,goodman1954some} derives the minimum-variance, unbiased estimator of the tank population size
 \begin{equation}
 	\hat{n} = m^{(k)} + \left(\frac{m^{(k)}}{k}-1 \right). \label{eq:nhat}
 \end{equation}
-To intuit this estimator, note (i) $n$ must be greater than or equal to $m^{(k)}$ and (ii) if we observe large (small) gaps between the serial numbers \data after sorting them (incl.\ the gap preceding the smallest serial number), then $n$ is likely (unlikely) to be much greater than $m^{(k)}$. 
-The estimator of $n$ in eqn.~\ref{eq:nhat} quantifies how far beyond $m^{(k)}$ we should estimate the tank population size, based on the gaps; $m^{(k)}/k-1$ is the average size of the gaps.
+To intuit $\hat{n}$, note (i) $n$ must be greater than or equal to $m^{(k)}$ and (ii) if we observe large (small) gaps between the serial numbers \data after sorting them (incl.\ the gap preceding the smallest serial number), then $n$ is likely (unlikely) to be much greater than $m^{(k)}$. 
+The estimator of $n$ in eqn.~\ref{eq:nhat} quantifies how far beyond the maximum serial number $m^{(k)}$ we should estimate the tank population size, based on the gaps; $m^{(k)}/k-1$ is the average size of the gaps.
 % between the sorted serial numbers (including the gap preceding the smallest serial number).
 Goodman also derives a frequentist confidence interval for $n$.
 
@@ -183,11 +182,11 @@ Under a Bayesian perspective \cite{bolstad2016introduction,downey2021think,van20
 Because the observed serial numbers \data provide information about the tank population size, the probability mass function of $N$ differs before and after they are collected and considered. Hence, $N$ has a \emph{prior} and \emph{posterior} probability mass function. 
 
 The three inputs to a Bayesian treatment of the German tank problem are: 
-\begin{itemize}
+\begin{enumerate}
 	\item the \emph{prior} mass function of $N$, which expresses a combination of our subjective beliefs and objective knowledge about the tank population size before we collect and consider the sample of serial numbers.
 	\item the \emph{data}, the observed serial numbers \data, viewed as realizations of random variables owing to the stochasticity of tank-capturing.
 	\item the \emph{likelihood} function, giving the probability of the data \data under each tank population size $N=n$, based on a probabilistic model of the tank-capturing process.
-\end{itemize}
+\end{enumerate}
 
 The output of a Bayesian treatment of the German tank problem is the \emph{posterior} mass function of the tank population size $N$, conditioned on the data \data. The posterior follows from Bayes' theorem and can be viewed as an update to the prior in light of the data.
 The posterior mass function of $N$ assigns each possible tank population size $n$ with a probability according to a compromise between its
@@ -197,7 +196,7 @@ The posterior mass function of $N$ assigns each possible tank population size $n
 and 
 (ii) prior probability, which quantifies how likely we thought the tank population size might be $n$ before the serial numbers \data were collected and considered. \cite{van2021bayesian}
 
-The posterior mass function of $N$ is the raw, uncertainty-quantifying, Bayesian solution to the German tank problem. We may summarize the posterior by reporting its median and the high-mass subset of the natural numbers that credibly contains the tank population size. Also, we can use the posterior to answer questions such as, what is the probability that $N$ exceeds some threshold quantity $n^\prime$ that would alter military strategy?
+The posterior mass function of $N$ is the raw, uncertainty-quantifying, Bayesian solution to the German tank problem. We may summarize the posterior by reporting its median and the high-mass subset of the natural numbers that credibly contains the tank population size. Also, we can use the posterior to answer questions such as, "what is the probability that $N$ exceeds some threshold quantity $n^\prime$ that would alter military strategy?".
 %We specify the \emph{prior} probability mass function of $N$ to express our beliefs about the tank population size before the serial numbers are collected and considered. The prior may be flat and diffuse if we have no prior information, or it could concentrate its mass around some estimate obtained by another means.
 
 
@@ -260,8 +259,7 @@ Under the data-generating process, then, the probability of observing data $S^{(
 \end{equation}
 
 \subparagraph{Interpretation.}
-We view $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$ as a function of $n$, since in practice we possess the data $s^{(k)}$ but not $n$.
-The likelihood quantifies the support the serial numbers on the $k$ captured tanks in $s^{(k)}$ lend for any particular tank population size $n$ \cite{van2021bayesian}. 
+The likelihood quantifies the support the serial numbers on the $k$ captured tanks in $s^{(k)}$ lend for any particular tank population size $n$, according to our probabilistic model of the tank-capturing process \cite{van2021bayesian}. We view $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$ as a function of $n$, since in practice we possess the data $s^{(k)}$ but not $n$.
 
 \subparagraph{The likelihood as a sequence of events.} 
 Alternatively, we may arrive at eqn.~\ref{eq:dgp} from a perspective of sequential events $S_1=s_1, S_2=s_2, ..., S_k=s_k$. First, the probability of a given serial number on the $i$th captured tank, conditioned on the tank population size and the outcomes of the previous serial numbers, is the uniform distribution
@@ -305,10 +303,10 @@ The \emph{prior probability mass function} $\pi_{\text{prior}}(N=n)$ expresses a
 The prior mass function we impose on $N$ is context-dependent. 
 Based on the amount of uncertainty it admits about the tank population size (measured by eg.\ entropy \cite{murphy2022probabilistic}),
 prior distributions roughly belong to one of the ordinal categories of informative, weakly informative, or diffuse \cite{van2021bayesian}.
-If we do not possess prior information about the tank population size, we adopt the principle of indifference and impose a diffuse prior eg.\ a uniform distribution over a set of feasible tank population sizes. 
+If we do not possess prior information about the tank population size, we adopt the principle of indifference and impose a diffuse prior, eg.\ a uniform distribution over a set of feasible tank population sizes. 
 On the other hand, an informative prior might concentrate its mass around some estimate of the total number of tanks obtained through other means. 
 
-Looking forward to the posterior mass function of $N$, which balances the prior and the likelihood (the latter based on the data): 
+Thinking ahead, about the posterior mass function of $N$, which balances the prior and the likelihood (the latter based on the data): 
 (1) an informative prior will have a larger impact on the posterior than a diffuse one \cite{van2021bayesian}, which "lets the data speak for itself" \cite{downey2021think};
 (2) generally, as the number of captured tanks $k$ increases (decreases), we expect the prior to have a smaller (larger) impact on the posterior \cite{downey2021think} as the data "overwhelms" the prior.
 
@@ -327,7 +325,7 @@ where the denominator is the probability of the data $s^{(k)}$:
 \end{equation}
 We view $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$ as a probability mass function of $N$, since in practice we have $s^{(k)}$. Then, $\pi_{\text{data}}(S^{(k)}=s^{(k)})$ is just a normalizing factor for the numerator in eqn.~\ref{eq:post}. 
 
-Interpreting eqn.~\ref{eq:post}, the prior mass function of $N$ is \emph{updated}, in light of the data \data, to yield the posterior mass function of $N$. The posterior probability of $N=n$ is proportional to the product of the likelihood at and prior probability of $N=n$---a compromise between the likelihood and prior.
+Interpreting eqn.~\ref{eq:post}, the prior mass function of $N$ is \emph{updated}, in light of the data \data, to yield the posterior mass function of $N$. The posterior probability of $N=n$ is proportional to the product of the likelihood at and prior probability of $N=n$, a compromise between the likelihood and prior.
 
 We simplify the posterior mass function of $N$ in eqn.~\ref{eq:post} by (i) substituting eqn.~\ref{eq:dgp}, (ii) restricting the sum in eqn.~\ref{eq:prob_data} to tank population sizes where the likelihood is nonzero, and (iii) noting the only two features of the data \data that appear are (a) its size $k$ and (b) the maximum serial number $m^{(k)}$:
 \begin{equation}
@@ -351,9 +349,11 @@ The posterior probability mass function of $N$ in eqn.~\ref{eq:post_simple} is o
 % \cms{should I introduce PMF for probability mass function?}
 
 \paragraph{A remark on "uncertainty".}
-The spread of the posterior mass function of $N$ in eqn.~\ref{eq:post_simple} reflects epistemic \cite{fox2011distinguishing} uncertainty about the tank population size, attributed to a lack of complete data. 
-Accounting for the data \data (probably) does not eliminate uncertainty about the tank population size because we (presumably) have not captured all of the tanks (ie.\ $k<n$) and observed their serial numbers. 
-In practice, posterior uncertainty about the tank population size also has a contribution from the possible inadequacy of the model of the tank-capturing process (uniform sampling) in eqn.~\ref{eq:dgp}, which our analysis here neglects.
+The spread of the posterior mass function of $N$ in eqn.~\ref{eq:post_simple} reflects epistemic \cite{fox2011distinguishing} uncertainty about the tank population size.
+The source of this posterior uncertainty is a lack of complete data: we have not captured all of the tanks\footnote{
+Certainly, $k<n$ if there are gaps in the observed serial numbers \data. Even if there are no gaps in \data, we cannot be certain we have captured the tank with the largest serial number.
+} and observed their serial numbers to be certain of the tank population size.
+In practice, an additional source of posterior uncertainty about the tank population size is the possible inadequacy of the model of the tank-capturing process (uniform sampling) in eqn.~\ref{eq:dgp}. Ie., selection bias could be present in the tank-capturing process. Our analysis here neglects this source of uncertainty. 
 
 \paragraph{Summarizing the posterior mass function of $N$.}
 We may summarize the posterior mass function of $N$ with a point estimate of the tank population size and a credible subset of the natural numbers that likely\footnote{Well, "likely", under our assumptions embedded in the likelihood and prior mass functions.} contains it. 
@@ -365,7 +365,7 @@ A suitable credible subset, which entertains multiple tank population sizes, is 
 \begin{equation}
 	\pi_{\text{posterior}}(N \in \mathcal{H}_\alpha \mid M^{(k)}=m^{(k)}) \geq 1 - \alpha.
 \end{equation}
-In words, the $\alpha$-high-mass subset $\mathcal{H}_\alpha$ is the smallest to (i) contain at least a fraction $1-\alpha$ of the posterior mass of $N$ and (ii) ensure every tank population size belonging to the subset is more probable than all outside of it.
+In words, the $\alpha$-high-mass subset $\mathcal{H}_\alpha$ is the smallest to (i) contain at least a fraction $1-\alpha$ of the posterior mass of $N$ and (ii) ensure every tank population size belonging to it is more probable than any outside of it.
 
 \paragraph{Querying the posterior distribution.} We may find the posterior probability that the tank population size belongs to any set of interest by summing the posterior mass over it. Eg., the probability the tank population size exceeds some number $n^\prime$ is:
 \begin{equation}
@@ -377,7 +377,7 @@ We may check the consistency of the data $s^{(k)}$ with the posterior mass funct
 Conceptually, we can simulate new data $\tilde{s}^{(k)}$ using the model of the tank-capturing process under a sample of the tank population size from the posterior, then compare the simulated data $\tilde{s}^{(k)}$ to the real data $s^{(k)}$ \cite{https://doi.org/10.1111/rssa.12378,van2021bayesian}. 
 More appropriately, we can compare the serial numbers in the real data \data with the mass function giving the probability that the tank with serial number $\tilde{s}$ would be captured under this process:
 \begin{equation}
-	\pi(\tilde{s} \in \tilde{S}^{(k)}) = \sum_{n^\prime=0}^\infty \frac{k}{n^\prime}\pi_{\text{posterior}}(N = n^\prime \mid S^{(k)}=s^{(k)}) \mathcal{I}_{\{1,...,n^\prime\}}(\tilde{s}), \label{eq:posterior_check}
+	\pi(\tilde{s} \in \tilde{S}^{(k)}) = \sum_{n^\prime=k}^\infty \frac{k}{n^\prime}\pi_{\text{posterior}}(N = n^\prime \mid S^{(k)}=s^{(k)}) \mathcal{I}_{\{1,...,n^\prime\}}(\tilde{s}), \label{eq:posterior_check}
 \end{equation} since $k/n^\prime$ is the probability any given viable serial number $\tilde{s}$ will be observed given the tank population size $N=n^\prime$.
 
 % Two other summaries take more advantage of the Bayesian approach.
@@ -442,7 +442,7 @@ Fig.~\ref{fig:the_posterior} visualizes the posterior probability mass function 
 Summarizing the posterior mass function of $N$, its median is $19$ and its high-mass credible subset $\mathcal{H}_{0.2}=\{15, ..., 25\}$ (highlighted in Fig.~\ref{fig:the_posterior}). 
 For what it's worth, the data in Fig.~\ref{fig:the_data} was generated from a tank population size of $n=20$ (explaining the choice of scale in Fig.~\ref{fig:the_data}). 
 
-\subparagraph{Querying the posterior.} Suppose our military strategy would change if the size of the tank population exceeds 30. From the posterior distribution of $N$, we calculate $\pi_{\text{posterior}}(N>30 \mid M^{(3)}=15)\approx 0.066$.
+\subparagraph{Querying the posterior.} Suppose our military strategy would change if the size of the tank population were to exceed 30. From the posterior distribution of $N$, we calculate $\pi_{\text{posterior}}(N>30 \mid M^{(3)}=15)\approx 0.066$.
 
 \subparagraph{Posterior predictive checking.} As a posterior predictive check, Fig.~\ref{fig:posterior_checking} shows how the observed serial numbers in the data $s^{(3)}$ compare with the probability of observing each serial number under the posterior mass function of $N$, according to eqn.~\ref{eq:posterior_check}.
 
@@ -464,7 +464,7 @@ The median of the posterior under $n_\text{max} \in \{60, 70\}$ is 20 (an increa
 		\includegraphics[width=\textwidth]{posterior_prior_sensitivity.pdf}
         		\caption{sensitivity of the posterior to the prior} \label{fig:posterior_sensitivity}
         	\end{subfigure} 
-            \caption{Checking (a) the consistency of the data $s^{(3)}$ with the probability of the serial numbers under the posterior mass function of $N$ and (b) the sensitivity of the posterior mass function of $N$ to the upper bound $n_{\text{max}}$ imposed by the prior mass function of $N$.}
+            \caption{Checking (a) the consistency of the data $s^{(3)}$ with the probability of observing each serial number under the tank-capturing process and the posterior mass function of $N$ and (b) the sensitivity of the posterior mass function of $N$ to the upper bound $n_{\text{max}}$ imposed by the prior mass function of $N$.}
 \end{figure}
 
 \paragraph{Capturing more tanks.} Suppose we capture an additional 9 tanks and re-run the Bayesian analysis. Fig.~\ref{fig:moretanks} shows the updated posterior mass function of $N$. The high-mass credible subset $\mathcal{H}_{0.2}$ shrinks considerably, to $\{19, 20\}$. This shows how more data---increasing the number of tanks captured, $k$---generally reduces our uncertainty about the tank population size.
@@ -486,7 +486,7 @@ The median of the posterior under $n_\text{max} \in \{60, 70\}$ is 20 (an increa
 \section{Discussion}
 \paragraph{Selection bias.}
 A strict assumption in the textbook-friendly German tank problem, which enables us to estimate the size of the population of tanks from a random sample of their (sequential) serial numbers, is that sampling is uniform. 
-To check consistency of the sample with this assumption, Goodman \cite{goodman1954some} demonstrates a test of the hypothesis that the sample of serial numbers is from a uniform distribution. 
+To check consistency of the sample with this model of the tank-capturing process, Goodman \cite{goodman1954some} demonstrates a test of the hypothesis that the sample of serial numbers is from a uniform distribution. 
 Interesting extensions of the textbook German tank problem could involve modeling selection bias in the tank-capturing process. 
 Such bias could arise eg.\ hypothetically, if older tanks with smaller serial numbers were more likely to be deployed in the fronts opened earlier in the war, where capturing tanks is more difficult than at less fortified fronts opened more recently.
 %	\item presuming the serial numbers were inscribed on a \emph{component} of the tank, adjusting (reducing) the estimate of the tank population size by considering the rate at which that component is replaced.  \cite{ruggles1947empirical}
