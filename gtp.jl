@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.19
+# v0.19.20
 
 using Markdown
 using InteractiveUtils
@@ -397,9 +397,9 @@ function _viz_posterior!(ax, fig, m, Ω, k;
 		xmax = Ω+viz_over_Ω
 	end
 
-	if i > 1
-		hideydecorations!(ax)
-	end
+	# if i > 1
+	# 	hideydecorations!(ax)
+	# end
 
 	if viz_ci
 		α = 0.2
@@ -428,7 +428,7 @@ function _viz_posterior!(ax, fig, m, Ω, k;
 	# ylims!(0, nothing)
 	xlims!(ax, -0.5, xmax+0.5)
 	label_Ω = rich("n", subscript("max"), "=$Ω")
-	Label(fig[1, i], label_Ω, 
+	Label(fig[i, 1], label_Ω, 
 		tellwidth=false, tellheight=false, halign=0.95, valign=0.95, font=aog.firasans("Light"))
 	if prior_too && (i == 1)
 		axislegend(position=:rc)
@@ -497,39 +497,35 @@ viz_all(m, Ω, k)
 # ╔═╡ 5887cdcd-c06c-4226-8f94-9da336360da7
 md"## sensitivity to prior"
 
-# ╔═╡ a0394917-f43e-46bf-9366-73407cc7c643
+# ╔═╡ 17b5d7a1-b5a2-4211-b81d-c88fbf0249e9
 function viz_post_sensitivity_to_prior(m::Int, n_maxs::Vector{Int}, k::Int; 
 		kwargs...)
-	fig = Figure(resolution=(500*2.5, 400))
+	fig = Figure(resolution=(700, 550))
 	axs = []
 	for (i, n_max) in enumerate(n_maxs)
-		ax = Axis(fig[1, i], 
-		          xlabel="size of tank population, n")
-		if i == 1
-			ax.ylabel=rich("π", subscript("posterior"), "(N=n | M", 
-			               superscript("(k = $k)"), "=$m)"
-			)
+		ax = Axis(fig[i, 1])
+		if i == 3
+		    ax.xlabel="size of tank population, n"
+		else
+			hidexdecorations!(ax)
 		end
-		_viz_posterior!(ax, fig, m, n_max, k, i=i, xmax=75, prior_too=true)#; i=i, xmax=75, prior_too=true, kwargs...)
+		
+		_viz_posterior!(ax, fig, m, n_max, k, i=i, xmax=100, prior_too=true)#; i=i, xmax=75, prior_too=true, kwargs...)
 		push!(axs, ax)
 	end
+	Label(fig[:, 0], 
+		text=rich("π", subscript("posterior"), "(N=n | M", superscript("(k = $k)"), "=$m)"), 
+		font=aog.firasans("Light"),
+		rotation=π/2
+	)
 	linkyaxes!(axs...)
 	linkxaxes!(axs...)
 	save("paper/posterior_prior_sensitivity.pdf", fig)
 	return fig
 end
 
-# ╔═╡ 60286e3f-cf40-40da-8fdc-42f874571516
-viz_post_sensitivity_to_prior(m, [50, 60, 70], k)
-
-# ╔═╡ 2f965e76-8227-4fad-a2c4-4ad454d84140
-viz_posterior(m, 50, k, xmax=75, prior_too=true)
-
-# ╔═╡ a3648a7e-8e68-4167-a61f-971126dae20e
-viz_posterior(m, 60, k, xmax=75, prior_too=true)
-
-# ╔═╡ ad0152e2-aa54-4bd3-b5c2-afcb6ee07b41
-viz_posterior(m, 70, k, xmax=75, prior_too=true)
+# ╔═╡ 037642de-baea-437f-b5fe-f947b9943334
+viz_post_sensitivity_to_prior(m, [30, 60, 90], k)
 
 # ╔═╡ 4a6e7740-b575-4f8b-8ae8-b5906ed5861c
 md"## posterior checking"
@@ -623,7 +619,7 @@ StatsBase = "~0.33.21"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.2"
+julia_version = "1.8.5"
 manifest_format = "2.0"
 project_hash = "fcb9a89777a0604d68861508dbc44cb3a96c7049"
 
@@ -781,7 +777,7 @@ version = "4.5.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -2070,11 +2066,8 @@ version = "3.5.0+0"
 # ╠═472507c4-45a1-4567-9d9f-53bdb872ec1b
 # ╠═02db6a13-f513-46ce-a351-b63f7fe0e95e
 # ╟─5887cdcd-c06c-4226-8f94-9da336360da7
-# ╠═a0394917-f43e-46bf-9366-73407cc7c643
-# ╠═60286e3f-cf40-40da-8fdc-42f874571516
-# ╠═2f965e76-8227-4fad-a2c4-4ad454d84140
-# ╠═a3648a7e-8e68-4167-a61f-971126dae20e
-# ╠═ad0152e2-aa54-4bd3-b5c2-afcb6ee07b41
+# ╠═17b5d7a1-b5a2-4211-b81d-c88fbf0249e9
+# ╠═037642de-baea-437f-b5fe-f947b9943334
 # ╟─4a6e7740-b575-4f8b-8ae8-b5906ed5861c
 # ╠═985882c0-66ec-4916-a0e5-375883999839
 # ╠═dfb59e14-e175-470a-8bf3-47a543f2ef6c

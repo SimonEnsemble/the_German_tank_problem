@@ -450,11 +450,9 @@ For what it's worth, the data in Fig.~\ref{fig:the_data} was generated from a ta
 
 \subparagraph{Posterior predictive checking.} As a posterior predictive check, Fig.~\ref{fig:posterior_checking} shows how the observed serial numbers in the data $s^{(3)}$ compare with the probability of observing each serial number under the posterior mass function of $N$, according to eqn.~\ref{eq:posterior_check}.
 
-\paragraph{Sensitivity of the posterior to the prior.} Because of the subjectivity involved in constructing the prior, checking the sensitivity of the posterior to the prior is good practice \cite{van2021bayesian}. Fig.~\ref{fig:posterior_sensitivity} shows how the posterior mass function of $N$ changes as we increase the upper-bound on the tank population $n_\text{max}$ we impose via the prior mass function of $N$ in eqn.~\ref{eq:prior}. 
-The median of the posterior under $n_\text{max} \in \{60, 70\}$ is 20 (an increase of one compared to $n_\text{max}=35$). The maximum of the high-mass subset $\mathcal{H}_{0.2}$ increases to 29 for $n_\text{max}=70$. 
+\paragraph{Sensitivity of the posterior to the prior.} Because of the subjectivity involved in constructing the prior, checking the sensitivity of the posterior to the prior is good practice \cite{van2021bayesian}. Fig.~\ref{fig:posterior_sensitivity} shows how the posterior mass function of $N$ changes with the upper-bound on the tank population $n_\text{max}$ we impose via the prior mass function of $N$ in eqn.~\ref{eq:prior}. 
+Eg., under $n_\text{max} =90$, the high-mass subset $\mathcal{H}_{0.2}$ expands to $\{15, ..., 30\}$.
 % Thus, our posterior point estimate and credible interval for the tank population size is not very sensitive to the choice of the upper bound $n_\text{max}$ in the prior.
-
-
 
 % interpret posterior more.
   \begin{figure}[h!]
@@ -465,7 +463,8 @@ The median of the posterior under $n_\text{max} \in \{60, 70\}$ is 20 (an increa
         	\end{subfigure}
 	
         	\begin{subfigure}[b]{\textwidth}
-		\includegraphics[width=\textwidth]{posterior_prior_sensitivity.pdf}
+		\centering
+		\includegraphics[width=0.8\textwidth]{posterior_prior_sensitivity.pdf}
         		\caption{sensitivity of the posterior to the prior} \label{fig:posterior_sensitivity}
         	\end{subfigure} 
             \caption{Checking (a) the consistency of the data $s^{(3)}$ with the probability of observing each serial number under the tank-capturing process and the posterior mass function of $N$ and (b) the sensitivity of the posterior mass function of $N$ to the upper bound $n_{\text{max}}$ imposed by the prior mass function of $N$.}
