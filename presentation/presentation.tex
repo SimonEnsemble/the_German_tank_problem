@@ -53,6 +53,18 @@
 \begin{document}
 \maketitle
 
+\begin{frame}[t]{read the preprint!}
+	C. Simon. "A Bayesian treatment of the German tank problem." \emph{arXiv}. (2023)
+	
+	\begin{figure}[h!]
+	\centering
+ 	\includegraphics[width=0.4\textwidth]{../paper/the_sample.pdf}
+ 	\includegraphics[width=0.4\textwidth]{../paper/all.pdf}
+	\end{figure}
+	
+	feedback welcome.
+\end{frame}
+
 \section{historical context}
 
 \begin{frame}[t]{World War II (1939-1945)}
@@ -64,26 +76,29 @@
 \end{frame}
 
 \begin{frame}[t]{estimating Germany's armament production}
+
 	\alert{context:} the Allies wish to estimate Germany's production of tanks, tires, rockets, etc. 
 	
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.4\textwidth]{panther_tank.jpg}
+		\includegraphics[width=0.3\textwidth]{panther_tank.jpg}
 		\caption{the German Panther tank. source: Wikipedia}
 	\end{figure}
 
 	\pause
 	
-	conventional methods were unreliable and/or contradictory.
+	conventional methods were unreliable and/or contradictory\footfullcite{ruggles1947empirical}.
 	\begin{itemize}
 		\item extrapolating prewar manufacturing capabilities
 		\item reports from secret sources
 		\item interrogating prisoners of war
 	\end{itemize}
+	
+	\vspace{\baselineskip}
 \end{frame}
 
 \begin{frame}[t]{Germany's practice of inscribing military equipment with serial numbers}
-	Germany marked their military equipment with serial numbers and codes for the date and/or place of manufacture to:
+	Germany marked their military equipment with serial numbers and codes for the date and/or place of manufacture\footfullcite{ruggles1947empirical} to:
 	\begin{itemize}
 		\item facilitate handling spare parts
 		\item trace defective equipment/parts back to the manufacturer for quality control.
@@ -95,6 +110,7 @@
 \end{frame}
 
 \begin{frame}[t]{serial number analysis for German tank production}
+	the Allies collected serial numbers on the chassis, engines, gearboxes, and bogie wheels of samples of tanks by inspecting captured tanks and examining captured records \footfullcite{ruggles1947empirical}.
 	
 	\begin{table}[h!]
 	\small
@@ -112,8 +128,6 @@ Aug. 1942 & 1550&  \only<2-3>{327}  & \only<3>{342} \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-see Ruggles and Brodie \footfullcite{ruggles1947empirical} for the detailed historical account.
 
 \end{frame}
 
@@ -173,10 +187,107 @@ what is your estimate of $n$?
 \end{frame}
 
 \begin{frame}[t]{quantifying uncertainty in the tank population size}
-any estimate of the tank population size $n$ from the data \data is subject to uncertainty.
 
-\emoji{thinking} \emoji{question}
-  
+\emoji{t-rex}: "I estimate $n$ to be 17."
+
+\pause 
+\emoji{thinking}
+
+\pause
+ any estimate of the tank population size $n$ from the data \data is subject to uncertainty.
+
+\pause 
 quantifying uncertainty in our estimate of $n$ is important because high-stakes military decisions may be made on its basis.
+
+\end{frame}
+
+\begin{frame}[t]{a Bayesian treatment of the German tank problem}
+	\alert{this talk}: the Bayesian approach to the German tank problem 
+	\begin{itemize}
+		\item solution quantifies uncertainty by assigning a probability to each tank population size
+		\pause 
+		\item provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution.
+	\end{itemize}
+\end{frame}
+
+\section{a Bayesian treatment of the German tank problem}
+
+\begin{frame}[t]{treat $N$ as a discrete random variable}
+a probability mass function (PMF) of $N$ assigns a probability to each possible tank population size $n\in\{0,1,...\}$. 
+
+\pause 
+
+\emoji{bulb} this probability is a measure of our degree of belief, perhaps with some basis in knowledge/data, that the tank population size is $n$. \footfullcite{ghosh2006introduction}
+
+\pause 
+
+the observed serial numbers \data provide information about the tank population size. consequently, $N$ has a:
+\begin{itemize}
+	\item prior PMF
+	\item posterior PMF
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{the prior PMF of $N$, $\pi_{\text{prior}}(N=n)$}
+expresses a combination of our subjective beliefs and objective knowledge about the total number of tanks $N$ before the data \data are collected and considered. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{../paper/prior.pdf}
+\end{figure}
+
+\begin{equation*}
+	\pi_{\text{prior}}(N=n) = \dfrac{1}{n_{\max}+1} \mathcal{I}_{ \{0, ..., n_{\text{max}}\}}(n).	 
+\end{equation*}
+\end{frame}
+
+\begin{frame}[t]{the data, $s^{(k)}:=(s_1,...,s_k)$}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{../paper/the_sample.pdf}
+	\caption{the data $s^{(3)}=(15, 14, 3)$.}
+\end{figure}
+
+\emoji{bulb} $s^{(k)}$ is a realization of the discrete random vector $S^{(k)}:=(S_1, ..., S_k)$. 
+
+
+\end{frame}
+
+\begin{frame}[t]{the likelihood function, $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$}
+\begin{itemize}
+	\item specifies the probability of the data $S^{(k)}=s^{(k)}$ given the tank population size $N=n$
+	\item quantifies the support the data $s^{(k)}$ lend for each tank population size $n$
+	\item constructed from a probabilistic model of the data-generating process
+\end{itemize}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{../paper/likelihood.pdf}
+\end{figure}
+
+\end{frame}
+\begin{frame}[t]{a probabilistic model of the data-generating process (DGP)}
+sequential capture of $k$ tanks from a population of $n$ tanks, without replacement.
+
+\begin{exampleblock}{perspective 1}
+each outcome $s^{(k)}$ belonging to the sample space
+\begin{equation*}
+	\Omega_n^{(k)} := \{ (s_1, ..., s_k)_{\neq}  :  s_i \in \{1, ..., n\} \; \text{for all } i \in \{ 1,..., k \} \}
+\end{equation*} 
+is equally likely.
+
+\pause the number of possible outcomes is
+\begin{equation*}
+	\lvert \Omega_n^{(k)} \rvert= n(n-1)\cdots (n-k+1) = n! / (n-k)! =:(n)_k
+\end{equation*}
+
+\pause the DGP is then the uniform distribution
+\begin{equation*}
+	\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)=
+	\dfrac{1}{(n)_k} \mathcal{I}_{\Omega_n^{(k)}}\left(s^{(k)}\right).
+\end{equation*}
+\end{exampleblock}
+
 \end{frame}
 \end{document}
