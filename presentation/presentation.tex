@@ -210,6 +210,22 @@ quantifying uncertainty in our estimate of $n$ is important because high-stakes 
 	\end{itemize}
 \end{frame}
 
+\section{prior work on the German tank problem}
+
+
+\begin{frame}[t]{references}
+\alert{the frequentist approach.}
+Goodman \footfullcite{goodman1952serial,goodman1954some}, and Clark, Gonye, and Miller \footfullcite{clark2021lessons}. 
+
+\alert{for pedagogy.} Champkin, \footfullcite{grajalez2013great},
+Johnson \footfullcite{johnson1994estimating},
+Scheaffer, Watkins, Gnanadesikan, and Witmer \footfullcite{scheaffer2013activity}, Berg \footfullcite{berg2021bayesian}.
+
+\alert{the Bayesian approach.}
+Roberts \footfullcite{roberts1967informative}, H{\"o}hle and Held \footfullcite{hohle2006bayesian}, and Linden, Dose, and Toussaint \footfullcite{von2014bayesian}, Cocco, Monasson, and Zamponi \footfullcite{cocco2022statistical}, and Andrews \footfullcite{blogpost}.
+\end{frame}
+
+
 \section{a Bayesian treatment of the German tank problem}
 
 \begin{frame}[t]{treat $N$ as a discrete random variable}
@@ -250,9 +266,8 @@ expresses a combination of our subjective beliefs and objective knowledge about 
 \end{figure}
 
 \emoji{bulb} $s^{(k)}$ is a realization of the discrete random vector $S^{(k)}:=(S_1, ..., S_k)$. 
-
-
 \end{frame}
+
 
 \begin{frame}[t]{the likelihood function, $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$}
 \begin{itemize}
@@ -263,14 +278,17 @@ expresses a combination of our subjective beliefs and objective knowledge about 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{../paper/likelihood.pdf}
+	\includegraphics[width=0.5\textwidth]{../paper/likelihood_presentation.pdf}
 \end{figure}
-
 \end{frame}
-\begin{frame}[t]{a probabilistic model of the data-generating process (DGP)}
-sequential capture of $k$ tanks from a population of $n$ tanks, without replacement.
 
-\begin{exampleblock}{perspective 1}
+
+\begin{frame}[t]{the likelihood function, $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$}
+\alert{a probabilistic model of the data-generating process}: sequential capture of $k$ tanks from a population of $n$ tanks, without replacement.
+
+\pause 
+
+\begin{exampleblock}{perspective 1: a uniform distribution over outcomes}
 each outcome $s^{(k)}$ belonging to the sample space
 \begin{equation*}
 	\Omega_n^{(k)} := \{ (s_1, ..., s_k)_{\neq}  :  s_i \in \{1, ..., n\} \; \text{for all } i \in \{ 1,..., k \} \}
@@ -288,6 +306,168 @@ is equally likely.
 	\dfrac{1}{(n)_k} \mathcal{I}_{\Omega_n^{(k)}}\left(s^{(k)}\right).
 \end{equation*}
 \end{exampleblock}
-
 \end{frame}
+
+
+\begin{frame}[t]{the likelihood function, $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$}
+\alert{a probabilistic model of the data-generating process}: sequential capture of $k$ tanks from a population of $n$ tanks, without replacement.
+
+
+\begin{exampleblock}{perspective 2: a sequence of events, $S_1=s_1, ..., S_k=s_k$}
+\pause 
+
+	\begin{equation*}
+		\pi (S_i=s_i \mid N=n, S_1=s_1, ..., S_{i-1}=s_{i-1})=\dfrac{1}{n-i+1} \mathcal{I}_{ \{1,...,n\} \setminus \{s_1, ..., s_{i-1}\}}(s_i)
+	\end{equation*}
+
+\pause chain rule:
+\begin{equation*}
+	\pi(S_1=s_1, ..., S_k=s_k \mid N=n) = \displaystyle \prod_{i=1}^k \pi (S_i=s_i \mid N=n, S_1=s_1,...,S_{i-1}=s_{i-1}).
+\end{equation*}
+
+\pause ie.
+\begin{equation*}
+	\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)=
+	\dfrac{1}{(n)_k} \mathcal{I}_{\Omega_n^{(k)}}\left(s^{(k)}\right).
+\end{equation*}
+
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[t]{the likelihood function, $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$}
+\begin{equation*}
+	\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)=
+	\dfrac{1}{(n)_k} \mathcal{I}_{\Omega_n^{(k)}}\left(s^{(k)}\right)
+\end{equation*}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{../paper/the_sample.pdf}
+	
+	\includegraphics[width=0.5\textwidth]{../paper/likelihood_presentation.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}[t]{the posterior PMF of $N$, $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$}
+\emoji{bulb} assigns a probability to each possible tank population size $n$ in consideration of its consistency with (1) the data \data, according to the likelihood, and (2) our prior beliefs/knowledge encoded in $\pi_{\text{prior}}(N=n)$. 
+
+\pause 
+
+\alert{Bayes' theorem}:
+\begin{equation*}
+	\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)}) = 
+	\frac{\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n) \pi_{\text{prior}}(N=n)}{\pi_{\text{data}}(S^{(k)}=s^{(k)})},
+\end{equation*} with
+\begin{equation*}
+	\pi_{\text{data}}(S^{(k)}=s^{(k)})= \displaystyle \sum_{n^\prime=0}^\infty \pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n^\prime) \pi_{\text{prior}}(N=n^\prime). \label{eq:prob_data}
+\end{equation*}
+
+\pause 
+$\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$ is the raw solution to the German tank problem!
+\end{frame}
+
+\begin{frame}[t]{the posterior PMF of $N$, $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$}
+let 
+\begin{equation*}
+    m^{(k)} = \max_{i \in \{1, ..., k\}} s_i .
+\end{equation*} 
+
+\pause 
+\begin{align*}
+	\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)}) &= \pi_{\text{posterior}}(N=n \mid M^{(k)}=m^{(k)}) \\
+	& =\frac{
+		\displaystyle (n)_k^{-1} \pi_{\text{prior}}(N=n)
+	}{
+		\displaystyle \sum_{n^\prime=m^{(k)}}^\infty (n^\prime)_{k}^{-1}  \pi_{\text{prior}}(N=n^\prime)
+	}
+	\mathcal{I}_{\{m^{(k)}, m^{(k)}+1,...\}}(n)
+	\label{eq:post_simple}
+\end{align*}
+
+ie. the data $s^{(k)}$ can be distilled to $m^{(k)}$.
+\end{frame}
+
+
+\begin{frame}[t]{the posterior PMF of $N$, $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{../paper/the_sample.pdf}
+	
+	\includegraphics[width=0.6\textwidth]{../paper/all.pdf}	
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[t]{summarizing posterior PMF of $N$}
+
+\begin{alertblock}{the $\alpha$-high-mass subset \footfullcite{hyndman1996computing}}
+\begin{equation}
+	\mathcal{H}_\alpha := \{n^\prime : \pi_{\text{posterior}}(N=n^\prime \mid M^{(k)}=m^{(k)}) \geq \pi_\alpha\}
+\end{equation} where $\pi_\alpha$ is the largest mass to satisfy 
+\begin{equation}
+	\pi_{\text{posterior}}(N \in \mathcal{H}_\alpha \mid M^{(k)}=m^{(k)}) \geq 1 - \alpha.
+\end{equation}
+
+\end{alertblock}
+$\mathcal{H}_\alpha$ is the smallest subset of $\{0,...\}$ to (i) contain at least a fraction $1-\alpha$ of the posterior mass of $N$ and (ii) ensure every tank population size belonging to it is more probable than any outside of it.
+\end{frame}
+
+
+\begin{frame}[t]{the posterior PMF of $N$, $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\textwidth]{../paper/posterior_35.pdf}
+\end{figure}
+
+median: $19$
+
+high-mass credible subset $\mathcal{H}_{0.2}=\{15, ..., 25\}$
+
+eg. $\pi_{\text{posterior}}(N>30 \mid M^{(3)}=15)\approx 0.066$.
+\end{frame}
+
+\begin{frame}[t]{what if we capture more tanks?}
+  \begin{figure}[h!]
+        	\centering
+        	\includegraphics[width=0.4\textwidth]{../paper/the_big_sample.pdf}
+	 \includegraphics[width=0.5\textwidth]{../paper/posterior_big_35.pdf}
+\end{figure}
+\end{frame}
+
+\section{conclusions}
+
+
+\begin{frame}[t]{a Bayesian treatment of the German tank problem}
+	incorporate prior assumptions, quantify uncertainty about the tank population size, $N$
+	
+	\begin{figure}[h!]
+		\centering
+ 		\includegraphics[width=0.4\textwidth]{../paper/the_sample.pdf}
+ 		\includegraphics[width=0.4\textwidth]{../paper/all.pdf}
+	\end{figure}
+	
+	\pause
+	
+	\alert{limitation}: uncertainty about tank-capturing model neglected. selection bias may be present.
+\end{frame}
+
+\begin{frame}[t]{the German tank problem in other contexts}
+estimating the size of some finite, ``hidden'' set, eg. the:
+\begin{itemize} 
+\item number of taxicabs in a city 
+\item number of accounts at a bank
+\item  number of aircraft operations at an airport
+\item  extent of leaked classified government communications
+\item  time-coverage of historical records of extreme events like floods
+\item  number of iPhones produced by Apple 
+\item  length of a short-tandem repeat allele 
+\item  size of a social network 
+\item  number of cases in court 
+\item  lifetime of a flower of a plant 
+\item duration of existence of a species 
+\end{itemize}
+
+tangentially related: mark and recapture methods in ecology to estimate the size of an animal population. 
+\end{frame}
+
 \end{document}

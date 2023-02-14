@@ -205,12 +205,13 @@ function likelihood(m::Int, n::Int, k::Int)
 end
 
 # ╔═╡ 21a1ac93-f5dd-401d-923e-ab9877816470
-function viz_likelihood(m, k)
+function viz_likelihood(m, k; for_paper=true)
 	fig = Figure()
 	ax  = Axis(fig[1, 1], 
 		xlabel="size of tank population, n",
-		ylabel=rich("π", subscript("likelihood"), "(M", 
-			superscript("(k=$k)"), "=$m | N=n)")
+		ylabel=for_paper ? rich("π", subscript("likelihood"), "(M", 
+			superscript("(k=$k)"), "=$m | N=n)") : 
+		rich("π", subscript("likelihood"), "((S₁, S₂, S₃) = ($(s[1]), $(s[2]), $(s[3])) | N=n)")
 		#title="likelihood"
 	)
 	ns = 0:Ω+viz_over_Ω
@@ -218,12 +219,15 @@ function viz_likelihood(m, k)
 		trunkcolor="black", stemcolor=colors["likelihood"], color=colors["likelihood"])
 	# ylims!(0, nothing)
 	xlims!(-0.5, maximum(ns)+0.5)
-	save("paper/likelihood.pdf", fig)
+	save("paper/likelihood" * (for_paper ? "" : "_presentation") * ".pdf", fig)
 	fig
 end
 
 # ╔═╡ 63e03cda-3f41-4eb6-8e4d-83f6eb4ec425
 viz_likelihood(m, k)
+
+# ╔═╡ 5b6514b7-7979-49ce-ba8c-7bf02849a119
+viz_likelihood(m, k, for_paper=false)
 
 # ╔═╡ 008e3d32-51c1-41c3-b0a9-3bb27601104e
 md"## the posterior
@@ -2022,6 +2026,7 @@ version = "3.5.0+0"
 # ╠═ae3ed475-095f-42ae-9542-e1e83f1a3871
 # ╠═21a1ac93-f5dd-401d-923e-ab9877816470
 # ╠═63e03cda-3f41-4eb6-8e4d-83f6eb4ec425
+# ╠═5b6514b7-7979-49ce-ba8c-7bf02849a119
 # ╟─008e3d32-51c1-41c3-b0a9-3bb27601104e
 # ╠═2eaa8ef0-ae94-4b12-befc-57c6c06c285b
 # ╟─7bf30ec8-2327-4730-bf9a-9f44ff90142d
