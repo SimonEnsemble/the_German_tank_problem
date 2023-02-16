@@ -23,6 +23,7 @@
 \setbeamercolor{title separator}{fg=osuorange, bg=white}
 \usepackage{booktabs}
 
+\metroset{subsectionpage=progressbar, sectionpage=progressbar}
 
 \usepackage[font=scriptsize]{caption}
 \captionsetup{labelformat=empty, justification=centering,font=scriptsize,labelfont=scriptsize}% redefines the caption setup of the figures environment in the beamer class.
@@ -106,7 +107,7 @@
 	
 	\pause 
 	
-	\emoji{bulb}  in 1943, these markings on a captured sample of German equipment conveyed information to British and American economic intelligence agencies about Germany's production of it.
+	\emoji{bulb} these markings on a captured sample of German equipment conveyed information to British and American economic intelligence agencies about Germany's production of it.
 \end{frame}
 
 \begin{frame}[t]{serial number analysis for German tank production}
@@ -132,6 +133,7 @@ Aug. 1942 & 1550&  \only<2-3>{327}  & \only<3>{342} \\
 \end{frame}
 
 \section{the German tank problem}
+
 
 \begin{frame}[t]{the German tank problem}
 \begin{alertblock}{problem statement}
@@ -188,16 +190,14 @@ what is your estimate of $n$?
 
 \begin{frame}[t]{quantifying uncertainty in the tank population size}
 
-\emoji{t-rex}: "I estimate $n$ to be 17."
 
-\pause 
-\emoji{thinking}
 
-\pause
  any estimate of the tank population size $n$ from the data \data is subject to uncertainty.
 
 \pause 
 quantifying uncertainty in our estimate of $n$ is important because high-stakes military decisions may be made on its basis.
+
+\emoji{t-rex}: "I estimate $n$ to be between 15 and 25 with 80\% confidence."
 
 \end{frame}
 
@@ -228,6 +228,8 @@ Roberts \footfullcite{roberts1967informative}, H{\"o}hle and Held \footfullcite{
 
 \section{a Bayesian treatment of the German tank problem}
 
+\subsection{modeling uncertainty}
+
 \begin{frame}[t]{treat $N$ as a discrete random variable}
 a probability mass function (PMF) of $N$ assigns a probability to each possible tank population size $n\in\{0,1,...\}$. 
 
@@ -244,6 +246,7 @@ the observed serial numbers \data provide information about the tank population 
 \end{itemize}
 \end{frame}
 
+\subsection{ingredient 1: the prior PMF}
 
 \begin{frame}[t]{the prior PMF of $N$, $\pi_{\text{prior}}(N=n)$}
 expresses a combination of our subjective beliefs and objective knowledge about the total number of tanks $N$ before the data \data are collected and considered. 
@@ -258,6 +261,8 @@ expresses a combination of our subjective beliefs and objective knowledge about 
 \end{equation*}
 \end{frame}
 
+\subsection{ingredient 2: the data}
+
 \begin{frame}[t]{the data, $s^{(k)}:=(s_1,...,s_k)$}
 \begin{figure}
 	\centering
@@ -265,9 +270,11 @@ expresses a combination of our subjective beliefs and objective knowledge about 
 	\caption{the data $s^{(3)}=(15, 14, 3)$.}
 \end{figure}
 
+\pause 
 \emoji{bulb} $s^{(k)}$ is a realization of the discrete random vector $S^{(k)}:=(S_1, ..., S_k)$. 
 \end{frame}
 
+\subsection{ingredient 3: the likelihood function}
 
 \begin{frame}[t]{the likelihood function, $\pi_{\text{likelihood}}(S^{(k)}=s^{(k)} \mid N=n)$}
 \begin{itemize}
@@ -297,7 +304,7 @@ is equally likely.
 
 \pause the number of possible outcomes is
 \begin{equation*}
-	\lvert \Omega_n^{(k)} \rvert= n(n-1)\cdots (n-k+1) = n! / (n-k)! =:(n)_k
+	\lvert \Omega_n^{(k)} \rvert= n(n-1)\cdots (n-(k-1)) = n! / (n-k)! =:(n)_k
 \end{equation*}
 
 \pause the DGP is then the uniform distribution
@@ -317,7 +324,7 @@ is equally likely.
 \pause 
 
 	\begin{equation*}
-		\pi (S_i=s_i \mid N=n, S_1=s_1, ..., S_{i-1}=s_{i-1})=\dfrac{1}{n-i+1} \mathcal{I}_{ \{1,...,n\} \setminus \{s_1, ..., s_{i-1}\}}(s_i)
+		\pi (S_i=s_i \mid N=n, S_1=s_1, ..., S_{i-1}=s_{i-1})=\dfrac{1}{n-(i-1)} \mathcal{I}_{ \{1,...,n\} \setminus \{s_1, ..., s_{i-1}\}}(s_i)
 	\end{equation*}
 
 \pause chain rule:
@@ -348,6 +355,8 @@ is equally likely.
 \end{figure}
 \end{frame}
 
+\subsection{turning the Bayesian crank to obtain the posterior PMF}
+
 \begin{frame}[t]{the posterior PMF of $N$, $\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)})$}
 \emoji{bulb} assigns a probability to each possible tank population size $n$ in consideration of its consistency with (1) the data \data, according to the likelihood, and (2) our prior beliefs/knowledge encoded in $\pi_{\text{prior}}(N=n)$. 
 
@@ -374,13 +383,14 @@ let
 
 \pause 
 \begin{align*}
-	\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)}) &= \pi_{\text{posterior}}(N=n \mid M^{(k)}=m^{(k)}) \\
+	\pi_{\text{posterior}}(N=n \mid S^{(k)}=s^{(k)}) 
 	& =\frac{
 		\displaystyle (n)_k^{-1} \pi_{\text{prior}}(N=n)
 	}{
 		\displaystyle \sum_{n^\prime=m^{(k)}}^\infty (n^\prime)_{k}^{-1}  \pi_{\text{prior}}(N=n^\prime)
 	}
-	\mathcal{I}_{\{m^{(k)}, m^{(k)}+1,...\}}(n)
+	\mathcal{I}_{\{m^{(k)}, m^{(k)}+1,...\}}(n) \\
+	&= \pi_{\text{posterior}}(N=n \mid M^{(k)}=m^{(k)})
 	\label{eq:post_simple}
 \end{align*}
 
@@ -425,6 +435,8 @@ high-mass credible subset $\mathcal{H}_{0.2}=\{15, ..., 25\}$
 
 eg. $\pi_{\text{posterior}}(N>30 \mid M^{(3)}=15)\approx 0.066$.
 \end{frame}
+
+\subsection{updating our posterior PMF with more data}
 
 \begin{frame}[t]{what if we capture more tanks?}
   \begin{figure}[h!]
