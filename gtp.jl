@@ -11,7 +11,7 @@ using CairoMakie, DataFrames, FileIO, StatsBase, Random, PlutoUI, Combinatorics
 TableOfContents()
 
 # ╔═╡ 21575264-8b5a-4c6b-b6ff-c2f29f76c26b
-md"set up plot theme and directory for plots"
+md"set up plotting theme"
 
 # ╔═╡ 8d134dd1-7a6f-4f58-b555-7fcfe4210177
 import AlgebraOfGraphics as aog
@@ -27,6 +27,9 @@ colors = Dict(zip(["prior", "likelihood", "posterior", "data", "other", "other2"
 
 # ╔═╡ 08404a85-ca12-4a6c-a3b5-733e1e1d61e0
 markers = Dict("prior" => :circ, "likelihood" => :star6, "posterior" => :rect)
+
+# ╔═╡ df4fb49d-f060-4063-a1d7-de6568d3eb53
+the_xlabel = "size of tank population, n"
 
 # ╔═╡ b09ad25f-436a-49fc-9304-5e59573c7ccd
 md"## simulate tank capture"
@@ -58,9 +61,6 @@ begin
 	Random.seed!(my_seed)
 	s = sample_tanks(k, n)
 end
-
-# ╔═╡ 9946a2f3-9172-421f-9ade-62d5b3a92157
-gaps = sort(s) .- vcat([0], sort(s)[1:end-1])
 
 # ╔═╡ d563bdd8-4a22-417a-93ab-79cbbc0b7d8f
 md"max observed serial no."
@@ -158,7 +158,7 @@ end
 function viz_prior(Ω)
 	fig = Figure()
 	ax  = Axis(fig[1, 1], 
-		xlabel="size of tank population, n", 
+		xlabel=the_xlabel, 
 		ylabel=rich("π", subscript("prior"), "(N=n)") 
 		#title="prior distribution"
 	)
@@ -170,7 +170,7 @@ function viz_prior(Ω)
 		label="prior", marker=markers["prior"]
 	)
 	# ylims!(0, nothing)
-	xlims!(-0.5, Ω+viz_over_Ω+0.5)
+	xlims!(-0.6, Ω+viz_over_Ω+0.5)
 	save("paper/prior.pdf", fig)
 	fig
 end
@@ -182,7 +182,11 @@ viz_prior(Ω)
 md"## the likelihood"
 
 # ╔═╡ dbd34ed6-b37f-4f08-bc49-be91845c9347
-falling_factorial(n::Int, k::Int) = factorial(n, n - k)
+begin
+	falling_factorial(n::Int, k::Int) = factorial(n, n - k)
+	# 5 tanks, choose 3 tanks, order matters.
+	@assert falling_factorial(5, 3) == 5 * 4 * 3
+end
 
 # ╔═╡ ae3ed475-095f-42ae-9542-e1e83f1a3871
 # π(m | n, k)
@@ -198,7 +202,7 @@ end
 function viz_likelihood(m, k; for_paper=true)
 	fig = Figure()
 	ax  = Axis(fig[1, 1], 
-		xlabel="size of tank population, n",
+		xlabel=the_xlabel,
 		ylabel=for_paper ? rich("π", subscript("likelihood"), "(M", 
 			superscript("(k=$k)"), "=$m | N=n)") : 
 		rich("π", subscript("likelihood"), "((S₁, S₂, S₃) = ($(s[1]), $(s[2]), $(s[3])) | N=n)")
@@ -235,7 +239,7 @@ function direct_posterior(n, m, Ω, k)
 end
 
 # ╔═╡ 8be04e01-983b-40d4-b89f-1455a6c908c8
-direct_posterior(n, m, Ω, k) ≈ 1 / falling_factorial(n, k) / sum(1 / falling_factorial(j, k) for j = m:Ω)
+@assert direct_posterior(n, m, Ω, k) ≈ 1 / falling_factorial(n, k) / sum(1 / falling_factorial(j, k) for j = m:Ω)
 
 # ╔═╡ 7bf30ec8-2327-4730-bf9a-9f44ff90142d
 md"second, the indirect route by using the likelihood of m"
@@ -251,19 +255,16 @@ evidence(m, Ω, k) = sum(prop_to_posterior(n, m, Ω, k) for n = k:Ω)
 indirect_posterior(n, m, Ω, k) = prop_to_posterior(n, m, Ω, k) / evidence(m, Ω, k)
 
 # ╔═╡ 3a8a23c0-63d4-4f1f-879d-d23c6d847664
-indirect_posterior(n, m, Ω, k)
-
-# ╔═╡ e8fda802-e4d1-4a39-b27d-3998e2f0b25f
-direct_posterior(n, m, Ω, k)
+@assert indirect_posterior(n, m, Ω, k) ≈ direct_posterior(n, m, Ω, k)
 
 # ╔═╡ 002358ca-3ca0-484a-97e8-dc3b74d8e43f
 md"does it normalize?"
 
 # ╔═╡ 3b214065-a03e-4c91-af04-5923186c68f7
-sum(indirect_posterior(n, m, Ω, k) for n = m:Ω)
+@assert sum(indirect_posterior(n, m, Ω, k) for n = m:Ω) ≈ 1.0
 
 # ╔═╡ 8f9d2996-8483-458c-9899-17d4aa3de83b
-sum(direct_posterior(n, m, Ω, k) for n = m:Ω)
+@assert sum(direct_posterior(n, m, Ω, k) for n = m:Ω) ≈ 1.0
 
 # ╔═╡ 7b27a6fd-57e8-4213-b8fc-1bddb829bc21
 function build_credibility(m, Ω, k)
@@ -298,7 +299,7 @@ credibility = build_credibility(m, Ω, k)
 md"does it normalize?"
 
 # ╔═╡ 797304f5-6151-4d30-8e67-ad2160ff030b
-sum(credibility[:, "posterior prob"])
+@assert sum(credibility[:, "posterior prob"]) ≈ 1.0
 
 # ╔═╡ 71ce3211-8735-48a7-9c92-4d239b0a57b5
 md"### summarizing the posterior
@@ -337,25 +338,8 @@ md"90% confidence interval"
 # ╔═╡ 84c7ec4f-b454-4500-80d4-35634cd3003d
 get_quantile(0.1, credibility)
 
-# ╔═╡ bf62309f-5a91-4177-9b27-2f7e9a5929cf
-get_quantile(0.9, credibility)
-
-# ╔═╡ ee7f6099-cb17-4550-b49a-a7b2d6cdeaf3
-n_lo = get_quantile(0.1, credibility)[1, "n"]
-
-# ╔═╡ 50c0c573-94d8-4c77-81cd-b659d99f7c4f
-n_hi = get_quantile(0.9, credibility)[1, "n"]
-
-# ╔═╡ ea9d513e-6312-4370-bf23-0013ed3767df
-begin
-	ci_contains = 0.0
-	for row in eachrow(credibility)
-		if row["n"] >= n_lo && row["n"] <= n_hi
-			ci_contains += row["posterior prob"]
-		end
-	end
-	ci_contains
-end
+# ╔═╡ 99cece15-e359-4bdf-86cc-3439b20a6027
+md"wut's the probability the tank pop size is greater than n′?"
 
 # ╔═╡ 2b974565-d92f-43fd-a9fa-e54d8eeff3c4
 begin
@@ -364,28 +348,25 @@ begin
 	sum(credibility[i, "posterior prob"] for i = 1:nrow(credibility) if credibility[i, "n"] > n′)
 end
 
-# ╔═╡ d132dedf-a2c7-4f3f-b8e1-cdb75758d3f9
-md"hdr"
-
 # ╔═╡ eb5cc25e-971a-42ab-b168-609d502f3ea0
 @warn "only works for uniform..."
 
-# ╔═╡ 4df80046-19a5-4a69-aa48-b770c880c2d2
-sort(credibility[:, "posterior prob"], rev=true)
+# ╔═╡ d132dedf-a2c7-4f3f-b8e1-cdb75758d3f9
+md"hdr"
 
 # ╔═╡ a788b416-52ae-42f0-a465-43917c9b816a
 function calc_hdr(credibility::DataFrame, m, Ω, k; α=0.2, verbose=true)
 	# iteratively lower water levels 
 	# (want to return largest one)
-	for f_α in sort(credibility[:, "posterior prob"], rev=true)
+	for π_α in sort(credibility[:, "posterior prob"], rev=true)
 		# set of n belonging to the HDR
-		ns_hdr = [n̂ for n̂ = 0:Ω if direct_posterior(n̂, m, Ω, k) ≥ f_α]
+		ns_hdr = [n̂ for n̂ = 0:Ω if direct_posterior(n̂, m, Ω, k) ≥ π_α]
 		# mass contained in HDR
 		mass_contained = sum(direct_posterior(n̂, m, Ω, k) for n̂ in ns_hdr)
-		# if this mass contains more than or equal to desired density, we got our fα
+		# if this mass contains more than or equal to desired density, we got our π_α
 		if mass_contained ≥ 1 - α
 			if verbose
-				@show f_α
+				@show π_α
 				@show ns_hdr
 				@show mass_contained
 			end
@@ -410,7 +391,7 @@ end
 function viz_posterior(m, Ω, k; savename::String="posterior", kwargs...)
 	fig = Figure()
 	ax  = Axis(fig[1, 1], 
-		xlabel="size of tank population, n",
+		xlabel=the_xlabel,
 		ylabel=rich("π", subscript("posterior"), "(N=n | M", 
 			        superscript("(k = $k)"), "=$m)"
 				   )
@@ -437,10 +418,7 @@ end
 viz_posterior(m, Ω, k)
 
 # ╔═╡ a91ce2cf-2904-477e-9095-d9d2ee5353fa
-calc_hdr(credibility, m, Ω, k)
-
-# ╔═╡ f779a0bf-c764-4d81-8c87-04c38ab2430c
-credibility
+the_hdr = calc_hdr(credibility, m, Ω, k)
 
 # ╔═╡ 0c4152e4-c82f-4801-9cf8-185eba05fe57
 md"## viz all at once"
@@ -609,17 +587,19 @@ function simulate_ci(n::Int, k::Int, n_max::Int; nb_sims::Int=1000)
 	for s = 1:nb_sims
 		# capture sample of tanks
 		sᵏ = sample_tanks(k, n)
+		
 		# calculate maximum
 		m = maximum(sᵏ)
+		
 		# determine posterior credibility, high density region, and median
 		credibility = build_credibility(m, n_max, k)
 		hdr = calc_hdr(credibility, m, n_max, k, verbose=false)
 		med = get_quantile(0.5, credibility)[1, "n"]
+		
 		# store results
 		meds[s] = med
 		posterior_mass_on_n[hdr] .+= 1
 	end
-	
 	posterior_mass_on_n /= nb_sims
 	
 	ss = 1:n_max_for_post_sensitivity
@@ -634,19 +614,20 @@ function simulate_ci(n::Int, k::Int, n_max::Int; nb_sims::Int=1000)
 		    linewidth=1, linestyle=:dash, label="median of median")
 	scatter!([n], [-0.04], overdraw=true, 
 		marker='↑', markersize=25, linewidth=3,
-		color=colors["other2"], label="true n"
+		color=colors["other2"]
 	)
-	ylims!(-0.06, 1.0)
+	ylims!(-0.05, 1.05)
+	xlims!(-0.05, 100.0)
 	# vlines!(n, color="black", linewidth=1, linestyle=:dashdot, label="true n")
 	axislegend(position=:rt)
 	fig
 end
 
 # ╔═╡ 7093ed3c-be5d-4572-acb4-4cf8cb0b3ff1
-simulate_ci(20, 3, 75)
+simulate_ci(20, 9, 100)
 
 # ╔═╡ f59083a1-d91c-4399-a8eb-ffe95b4c529b
-simulate_ci(20, 8, 75)
+simulate_ci(20, 9, 25)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2078,6 +2059,7 @@ version = "3.5.0+0"
 # ╠═9e831714-3ce5-4b68-83f3-e98384732554
 # ╠═90816107-f479-4727-b8e9-405825c7c68f
 # ╠═08404a85-ca12-4a6c-a3b5-733e1e1d61e0
+# ╠═df4fb49d-f060-4063-a1d7-de6568d3eb53
 # ╟─b09ad25f-436a-49fc-9304-5e59573c7ccd
 # ╠═fc649f6d-223d-408a-ad4e-c8b93cfaa661
 # ╟─8255eb75-fa6b-4e8f-9d1e-c40192009e4e
@@ -2086,7 +2068,6 @@ version = "3.5.0+0"
 # ╠═fb9a152f-ac8d-46f7-b061-3436a72fb4bd
 # ╟─a8ad008a-14da-4032-af42-4a65e6cf598b
 # ╠═cb3c96da-4678-44bf-b149-1e13b22804e8
-# ╠═9946a2f3-9172-421f-9ade-62d5b3a92157
 # ╟─d563bdd8-4a22-417a-93ab-79cbbc0b7d8f
 # ╠═3d29f507-918e-4ca4-8265-51cb1efbfc24
 # ╠═1c4f3910-29dd-447d-9c18-0f2b1bc190eb
@@ -2112,7 +2093,6 @@ version = "3.5.0+0"
 # ╠═aed63250-fcd5-41f0-ab41-50470015c81e
 # ╠═4305f818-6211-4f07-9b6f-b44a22bf81cb
 # ╠═3a8a23c0-63d4-4f1f-879d-d23c6d847664
-# ╠═e8fda802-e4d1-4a39-b27d-3998e2f0b25f
 # ╟─002358ca-3ca0-484a-97e8-dc3b74d8e43f
 # ╠═3b214065-a03e-4c91-af04-5923186c68f7
 # ╠═8f9d2996-8483-458c-9899-17d4aa3de83b
@@ -2135,17 +2115,12 @@ version = "3.5.0+0"
 # ╠═7f8edf31-aa48-4f07-92ab-9b7aef71d385
 # ╟─c628b283-906d-4745-bf8c-7e252c7e5323
 # ╠═84c7ec4f-b454-4500-80d4-35634cd3003d
-# ╠═bf62309f-5a91-4177-9b27-2f7e9a5929cf
-# ╠═ee7f6099-cb17-4550-b49a-a7b2d6cdeaf3
-# ╠═50c0c573-94d8-4c77-81cd-b659d99f7c4f
-# ╠═ea9d513e-6312-4370-bf23-0013ed3767df
+# ╟─99cece15-e359-4bdf-86cc-3439b20a6027
 # ╠═2b974565-d92f-43fd-a9fa-e54d8eeff3c4
-# ╟─d132dedf-a2c7-4f3f-b8e1-cdb75758d3f9
 # ╟─eb5cc25e-971a-42ab-b168-609d502f3ea0
-# ╠═4df80046-19a5-4a69-aa48-b770c880c2d2
+# ╟─d132dedf-a2c7-4f3f-b8e1-cdb75758d3f9
 # ╠═a788b416-52ae-42f0-a465-43917c9b816a
 # ╠═a91ce2cf-2904-477e-9095-d9d2ee5353fa
-# ╠═f779a0bf-c764-4d81-8c87-04c38ab2430c
 # ╟─0c4152e4-c82f-4801-9cf8-185eba05fe57
 # ╠═b1e45ddd-636c-4abe-bc37-3093c21aaebb
 # ╠═472507c4-45a1-4567-9d9f-53bdb872ec1b
