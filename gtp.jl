@@ -70,7 +70,7 @@ m = maximum(s)
 
 # ╔═╡ 1c4f3910-29dd-447d-9c18-0f2b1bc190eb
 function viz_tank_capture(s::Vector{Int}; savename=nothing, 
-                          incl_data=true, n_rows::Int=1)
+                          incl_data=true, n_rows::Int=1, incl_realization::Bool=true)
 	img = load("tank.png")
 
 	n_cols = ceil(Int, length(s) / n_rows)
@@ -85,8 +85,9 @@ function viz_tank_capture(s::Vector{Int}; savename=nothing,
 				continue
 			end
 			sᵢ = s[i_s]
+
 			
-			the_label = rich("s", subscript("$i_s"), "=$sᵢ")
+			the_label = incl_realization ? rich("s", subscript("$i_s"), "=$sᵢ") : rich("s", subscript("$i_s"))
 			ax  = Axis(fig[i, j], 
 				aspect=DataAspect(), 
 				yreversed=true, 
@@ -99,7 +100,7 @@ function viz_tank_capture(s::Vector{Int}; savename=nothing,
 			hidedecorations!(ax, label=false)
 			hidespines!(ax)
 			text!(ax, size(img')[1]/2, size(img')[2]*1.25, text=the_label, 
-				  fontsize=50, 
+				  fontsize=incl_data ? 50 : 80, 
 				  markerspace=:pixel,
 				  align=(:center, :center), font=aog.firasans("light"))
 		end
@@ -607,13 +608,15 @@ end
 
 # ╔═╡ cc165364-ee30-4b0c-b082-d7307a14e7db
 function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1000)
+	# rows : ks
+	# cols: n_maxes
 	fig = Figure(resolution=(700, 700))
 	axs = [Axis(fig[i, j]) for i = 1:length(ks), j = 1:length(ks)]
 	axs[end, 2].xlabel = "serial number, s"
 	axs[2, 1].ylabel = "probability s ∈ ℋₐ"
 	linkaxes!(axs[:]...)
 
-	ss = 1:40
+	ss = 1:45
 	for i = 1:length(ks)
 		for j = 1:length(Ωs)
 			if j != 1
@@ -630,18 +633,48 @@ function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1
 				  trunkcolor="black", stemcolor=colors["posterior"], 
 				  color=colors["posterior"], stemwidth=1)
 			ylims!(axs[i, j], -0.075, 1.01)
-			vlines!(axs[i, j], median(meds), color="black", linewidth=1, linestyle=:dash)
+			vlines!(axs[i, j], median(meds), color="black", linewidth=1, linestyle=:dash, label="median")
 			hlines!(axs[i, j], 1.0, linewidth=1, color="lightgray", style=:dash)
 			scatter!(axs[i, j], [n], [-0.05], overdraw=true, 
-					marker='↑', markersize=20, color="red")
+					marker='↑', markersize=20, color="red", label="n")
+			if i == j == 1
+				axislegend(axs[i, j], labelsize=16)
+			end
 		end
 	end
+	save("hdr_study.pdf", fig)
 	return fig
-
 end
 
 # ╔═╡ 8440db62-bb3c-43e8-beab-d112caab1a76
-viz_ℋₐ([25, 50, 75], [3, 6, 9], nb_sims=10000)
+begin
+	my_ks = [3, 6, 9]
+	my_Ωs = [25, 50, 100]
+	viz_ℋₐ(my_Ωs, my_ks, nb_sims=10)
+end
+
+# ╔═╡ 1edf0621-bc43-432c-86fa-0bf5671d0b65
+function mini_prior(Ω::Int)
+	ns = 0:105
+	ps = [prior(n, Ω) for n in ns]
+	
+	fig = Figure(resolution=(700/3, 700/3))
+	ax_p = Axis(fig[1, 1], xlabel="n", ylabel=rich("π", subscript("prior"), "(N=n)") )
+	stem!(ax_p, ns, ps, stemwidth=0.5,
+		trunkcolor="black", markersize=5, 
+		stemcolor=colors["prior"], color=colors["prior"],
+		marker=markers["prior"])
+	xlims!(-1, 106)
+	ylims!(-0.045*0.03, 0.045)
+	save("mini_prior_$Ω.pdf", fig)
+	return fig
+end
+
+# ╔═╡ 0f0fd79b-ced3-40af-baef-d62f46f108dc
+[mini_prior(Ω) for Ω in my_Ωs]
+
+# ╔═╡ cb5eae01-c98b-468c-99eb-5e8973328d90
+[viz_tank_capture([1 for i = 1:k], incl_data=false, incl_realization=false, n_rows=Int(k/3)) for k in my_ks]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2159,5 +2192,8 @@ version = "3.5.0+0"
 # ╠═5b68efa8-182e-4b85-86cd-7c049db673fd
 # ╠═cc165364-ee30-4b0c-b082-d7307a14e7db
 # ╠═8440db62-bb3c-43e8-beab-d112caab1a76
+# ╠═1edf0621-bc43-432c-86fa-0bf5671d0b65
+# ╠═0f0fd79b-ced3-40af-baef-d62f46f108dc
+# ╠═cb5eae01-c98b-468c-99eb-5e8973328d90
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
