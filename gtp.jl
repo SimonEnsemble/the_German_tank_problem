@@ -581,8 +581,9 @@ ks = [5, 10, 15]
 n_maxes
 
 # ╔═╡ 5b68efa8-182e-4b85-86cd-7c049db673fd
-function simulate_ci(n::Int, k::Int, n_max::Int; nb_sims::Int=1000)
-	posterior_mass_on_n = zeros(n_max_for_post_sensitivity)
+# entry i is prob i ∈ Hₐ.
+function simulate_ci(n::Int, k::Int, Ω::Int; nb_sims::Int=1000)
+	posterior_mass_on_n = zeros(80)
 	meds = zeros(1:nb_sims)
 	for s = 1:nb_sims
 		# capture sample of tanks
@@ -592,8 +593,8 @@ function simulate_ci(n::Int, k::Int, n_max::Int; nb_sims::Int=1000)
 		m = maximum(sᵏ)
 		
 		# determine posterior credibility, high density region, and median
-		credibility = build_credibility(m, n_max, k)
-		hdr = calc_hdr(credibility, m, n_max, k, verbose=false)
+		credibility = build_credibility(m, Ω, k)
+		hdr = calc_hdr(credibility, m, Ω, k, verbose=false)
 		med = get_quantile(0.5, credibility)[1, "n"]
 		
 		# store results
@@ -601,33 +602,46 @@ function simulate_ci(n::Int, k::Int, n_max::Int; nb_sims::Int=1000)
 		posterior_mass_on_n[hdr] .+= 1
 	end
 	posterior_mass_on_n /= nb_sims
-	
-	ss = 1:n_max_for_post_sensitivity
-	
-	fig = Figure()
-	ax  = Axis(fig[1, 1], xlabel="serial number, s", 
-		ylabel="probability s ∈ ℋ")
-	stem!(ss, posterior_mass_on_n,
-		trunkcolor="black", stemcolor=colors["posterior"], color=colors["posterior"])
-	xlims!(-0.5, maximum(ss)+0.5)
-	vlines!(median(meds), color="black", 
-		    linewidth=1, linestyle=:dash, label="median of median")
-	scatter!([n], [-0.04], overdraw=true, 
-		marker='↑', markersize=25, linewidth=3,
-		color=colors["other2"]
-	)
-	ylims!(-0.05, 1.05)
-	xlims!(-0.05, 100.0)
-	# vlines!(n, color="black", linewidth=1, linestyle=:dashdot, label="true n")
-	axislegend(position=:rt)
-	fig
+	return posterior_mass_on_n, meds
 end
 
-# ╔═╡ 7093ed3c-be5d-4572-acb4-4cf8cb0b3ff1
-simulate_ci(20, 9, 100)
+# ╔═╡ cc165364-ee30-4b0c-b082-d7307a14e7db
+function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1000)
+	fig = Figure(resolution=(700, 700))
+	axs = [Axis(fig[i, j]) for i = 1:length(ks), j = 1:length(ks)]
+	axs[end, 2].xlabel = "serial number, s"
+	axs[2, 1].ylabel = "probability s ∈ ℋₐ"
+	linkaxes!(axs[:]...)
 
-# ╔═╡ f59083a1-d91c-4399-a8eb-ffe95b4c529b
-simulate_ci(20, 9, 25)
+	ss = 1:40
+	for i = 1:length(ks)
+		for j = 1:length(Ωs)
+			if j != 1
+				hideydecorations!(axs[i, j], ticks=false)
+			end
+			if i != length(Ωs)
+				hidexdecorations!(axs[i, j], ticks=false)
+			end
+			
+			posterior_mass_on_n, meds = simulate_ci(n, ks[i], Ωs[j], nb_sims=nb_sims)
+			
+			stem!(axs[i, j], ss, posterior_mass_on_n[ss],
+				  marker=markers["posterior"], markersize=10,
+				  trunkcolor="black", stemcolor=colors["posterior"], 
+				  color=colors["posterior"], stemwidth=1)
+			ylims!(axs[i, j], -0.075, 1.01)
+			vlines!(axs[i, j], median(meds), color="black", linewidth=1, linestyle=:dash)
+			hlines!(axs[i, j], 1.0, linewidth=1, color="lightgray", style=:dash)
+			scatter!(axs[i, j], [n], [-0.05], overdraw=true, 
+					marker='↑', markersize=20, color="red")
+		end
+	end
+	return fig
+
+end
+
+# ╔═╡ 8440db62-bb3c-43e8-beab-d112caab1a76
+viz_ℋₐ([25, 50, 75], [3, 6, 9], nb_sims=10000)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2143,7 +2157,7 @@ version = "3.5.0+0"
 # ╠═af810a32-cf8c-49e1-901a-ef5784956cf0
 # ╠═534241be-7d5f-4ed5-82f4-97a9f8d5adff
 # ╠═5b68efa8-182e-4b85-86cd-7c049db673fd
-# ╠═7093ed3c-be5d-4572-acb4-4cf8cb0b3ff1
-# ╠═f59083a1-d91c-4399-a8eb-ffe95b4c529b
+# ╠═cc165364-ee30-4b0c-b082-d7307a14e7db
+# ╠═8440db62-bb3c-43e8-beab-d112caab1a76
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
