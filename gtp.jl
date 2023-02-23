@@ -99,8 +99,9 @@ function viz_tank_capture(s::Vector{Int}; savename=nothing,
 			image!(ax, reverse(img', dims=2))
 			hidedecorations!(ax, label=false)
 			hidespines!(ax)
+			fontsize = Dict(1=> 85, 2=>65, 3=>60)
 			text!(ax, size(img')[1]/2, size(img')[2]*1.25, text=the_label, 
-				  fontsize=incl_data ? 50 : 80, 
+				  fontsize=incl_data ? 50 : fontsize[n_rows], 
 				  markerspace=:pixel,
 				  align=(:center, :center), font=aog.firasans("light"))
 		end
@@ -125,13 +126,22 @@ function viz_tank_capture(s::Vector{Int}; savename=nothing,
 	end
 	resize_to_layout!(fig)
 	if ! isnothing(savename)
-		save("paper/$savename.pdf", fig)
+		save("$savename.pdf", fig)
 	end
 	fig
 end
 
 # ╔═╡ e6fcc9c3-30d3-4287-ac82-36af58758778
-viz_tank_capture(s, savename="the_sample")
+viz_tank_capture(s, savename="paper/the_sample")
+
+# ╔═╡ eb6d096d-754c-462b-be20-139433ef17f4
+viz_tank_capture(s; incl_data=false, incl_realization=false)
+
+# ╔═╡ 10b97dab-9e2d-4330-9fe7-e79e98f3d8fa
+viz_tank_capture([1 for i = 1:6]; incl_data=false, incl_realization=false, n_rows=2)
+
+# ╔═╡ 3d30e7c9-ac7a-496c-968c-9cc08dcc0568
+viz_tank_capture([1 for i = 1:9]; incl_data=false, incl_realization=false, n_rows=3)
 
 # ╔═╡ d3f5c14d-7692-41a4-aad1-d1eb18aa616c
 md"## the prior
@@ -627,6 +637,7 @@ function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1
 			end
 			
 			posterior_mass_on_n, meds = simulate_ci(n, ks[i], Ωs[j], nb_sims=nb_sims)
+			@show median(meds)
 			
 			stem!(axs[i, j], ss, posterior_mass_on_n[ss],
 				  marker=markers["posterior"], markersize=10,
@@ -634,9 +645,10 @@ function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1
 				  color=colors["posterior"], stemwidth=1)
 			ylims!(axs[i, j], -0.075, 1.01)
 			vlines!(axs[i, j], median(meds), color="black", linewidth=1, linestyle=:dash, label="median")
-			hlines!(axs[i, j], 1.0, linewidth=1, color="lightgray", style=:dash)
+			hlines!(axs[i, j], 1.0, linewidth=1, color="lightgray", linestyle=:dashdot)
 			scatter!(axs[i, j], [n], [-0.05], overdraw=true, 
 					marker='↑', markersize=20, color="red", label="n")
+			xlims!(axs[i, j], 0, 44)
 			if i == j == 1
 				axislegend(axs[i, j], labelsize=16)
 			end
@@ -650,7 +662,7 @@ end
 begin
 	my_ks = [3, 6, 9]
 	my_Ωs = [25, 50, 100]
-	viz_ℋₐ(my_Ωs, my_ks, nb_sims=10)
+	viz_ℋₐ(my_Ωs, my_ks, nb_sims=50000)
 end
 
 # ╔═╡ 1edf0621-bc43-432c-86fa-0bf5671d0b65
@@ -665,6 +677,7 @@ function mini_prior(Ω::Int)
 		stemcolor=colors["prior"], color=colors["prior"],
 		marker=markers["prior"])
 	xlims!(-1, 106)
+	hideydecorations!(ax_p, label=false)
 	ylims!(-0.045*0.03, 0.045)
 	save("mini_prior_$Ω.pdf", fig)
 	return fig
@@ -674,7 +687,12 @@ end
 [mini_prior(Ω) for Ω in my_Ωs]
 
 # ╔═╡ cb5eae01-c98b-468c-99eb-5e8973328d90
-[viz_tank_capture([1 for i = 1:k], incl_data=false, incl_realization=false, n_rows=Int(k/3)) for k in my_ks]
+[viz_tank_capture([1 for i = 1:k], 
+	incl_data=false, 
+	incl_realization=false, 
+	n_rows=Int(k/3), 
+	savename="generic_tank_capture_$k"
+) for k in my_ks]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -704,7 +722,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "437948a473e92247ce051fa23fbf8a2d75e15436"
+project_hash = "391c26490f94108728d95bc5038eaeb1acbf68f7"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -2119,6 +2137,9 @@ version = "3.5.0+0"
 # ╠═3d29f507-918e-4ca4-8265-51cb1efbfc24
 # ╠═1c4f3910-29dd-447d-9c18-0f2b1bc190eb
 # ╠═e6fcc9c3-30d3-4287-ac82-36af58758778
+# ╠═eb6d096d-754c-462b-be20-139433ef17f4
+# ╠═10b97dab-9e2d-4330-9fe7-e79e98f3d8fa
+# ╠═3d30e7c9-ac7a-496c-968c-9cc08dcc0568
 # ╟─d3f5c14d-7692-41a4-aad1-d1eb18aa616c
 # ╟─5dcd6be3-8ba8-4995-833f-e39415bca1ca
 # ╠═c9cbbd58-d5ff-4c15-9fda-d8f3b9ddbeb0

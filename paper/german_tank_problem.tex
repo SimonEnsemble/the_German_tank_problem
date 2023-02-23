@@ -66,14 +66,6 @@
 	The German tank problem has an interesting historical background and is an engaging problem of statistical estimation for the classroom. The objective is to estimate the size of a population of tanks inscribed with sequential serial numbers, from a random sample. In this tutorial article, we outline the Bayesian approach to the German tank problem, (i) whose solution assigns a probability to each tank population size, thereby quantifying uncertainty, and (ii) which provides an opportunity to incorporate prior information and/or beliefs about the tank population size into the solution. We illustrate with an example. Finally, we survey problems in other contexts that resemble the German tank problem.
 \end{abstract}
 
-
-
-\begin{figure}[h!]
-	\centering
- \includegraphics[width=0.4\textwidth]{the_sample.pdf}
- \includegraphics[width=0.4\textwidth]{all.pdf}
-\end{figure}
-
 \clearpage
 
 \section{Background}
@@ -92,7 +84,7 @@ However, these markings on a captured sample of German equipment conveyed inform
 To estimate Germany's production of tanks, the Allies collected serial numbers on the chassis, engines, gearboxes, and bogie wheels of samples of tanks by inspecting captured tanks and examining captured records\footnote{Eg., captured records from tank repair depots listed serial numbers of the chassis and engine of repaired tanks, and records from divisional headquarters listed chassis serial numbers of tanks held by a specific unit.}. 
 Despite lacking an \emph{exhaustive} sample, the sequential nature of\footnote{
 Gearboxes on captured tanks, for example, were inscribed with serial numbers belonging to an unbroken sequence. Chassis serial numbers, on the other hand, were broken into blocks to distinguish models/designs, leaving gaps between the serial numbers assigned to them.
-} and patterns in these samples of serial numbers enabled the Allies to estimate Germany's tank production---postwar, we know---much more accurately than conventional intelligence methods (Tab.~\ref{tab:success}).
+} and patterns in these samples of serial numbers enabled the Allies to estimate Germany's tank production. Postwar, we know serial number analysis gave more accurate estimates than the overestimates by conventional intelligence methods (Tab.~\ref{tab:success}).
 % While some components were labeled with serial numbers in discontinuous bands
 % Postwar, we know serial number analysis provided more accurate estimates of German tank production than the (over)estimates from conventional American and British intelligence (Tab.~\ref{tab:success}).
 
@@ -143,7 +135,7 @@ the German tank problem is still a suitable conversation topic for dinners and s
 
 \paragraph{Uncertainty quantification.}
 Any estimate of the tank population size $n$ from the data \data is subject to uncertainty, since we (presumably) have not captured \emph{all} of the tanks (ie., $k\neq n$, probably).  
-Quantifying uncertainty in our estimate of $n$ is important because high-stakes military decisions may be made on its basis.
+Quantifying uncertainty in our estimate of $n$ is important because high-stakes military decisions may be made on the basis of it.
 
 \paragraph{Our contribution.}
 In this pedagogical article, we outline the Bayesian approach to the German tank problem, 
@@ -362,14 +354,15 @@ In practice, an additional source of posterior uncertainty about the tank popula
 \paragraph{Summarizing the posterior mass function of $N$.}
 We may summarize the posterior mass function of $N$ with a point estimate of the tank population size and a credible subset of the natural numbers that contains the tank population size with a high probability\footnote{Well, under our assumptions embedded in the likelihood and prior mass functions.}.
 A suitable point estimate of the tank population size is a median of the posterior mass function of $N$; by definition, the posterior probability that the tank population size is greater (less) than or equal to a median is at least 0.5.
-A suitable credible subset, which entertains multiple tank population sizes, is the $\alpha$-high-mass subset \cite{hyndman1996computing}
+A suitable credible subset, which entertains multiple tank population sizes, is the $a$-high-mass subset \cite{hyndman1996computing}
 \begin{equation}
-	\mathcal{H}_\alpha := \{n^\prime : \pi_{\text{posterior}}(N=n^\prime \mid M^{(k)}=m^{(k)}) \geq \pi_\alpha\}
-\end{equation} where $\pi_\alpha$ is the largest mass to satisfy 
+	\mathcal{H}_a:= \{n^\prime : \pi_{\text{posterior}}(N=n^\prime \mid M^{(k)}=m^{(k)}) \geq \pi_a\}
+\end{equation} where $\pi_a$ is the largest mass to satisfy 
 \begin{equation}
-	\pi_{\text{posterior}}(N \in \mathcal{H}_\alpha \mid M^{(k)}=m^{(k)}) \geq 1 - \alpha.
+	\pi_{\text{posterior}}(N \in \mathcal{H}_a \mid M^{(k)}=m^{(k)}) \geq 1 - a.
 \end{equation}
-In words, the $\alpha$-high-mass subset $\mathcal{H}_\alpha$ is the smallest to (i) contain at least a fraction $1-\alpha$ of the posterior mass of $N$ and (ii) ensure every tank population size belonging to it is more probable than any outside of it.
+In words, the $a$-high-mass subset $\mathcal{H}_a$ is the smallest to (i) contain at least a fraction $1-a$ of the posterior mass of $N$ and (ii) ensure every tank population size belonging to it is more probable than any outside of it. 
+Conceptually, we may think of $\pi_a$ as a water level that we raise to submerge low-probability tank population sizes.
 
 \paragraph{Querying the posterior distribution.} We may find the posterior probability that the tank population size belongs to any set of interest by summing the posterior mass over it. Eg., the probability the tank population size exceeds some number $n^\prime$ is:
 \begin{equation}
@@ -393,7 +386,7 @@ We illustrate the Bayesian approach to the German tank problem through an exampl
 
 \begin{figure}[h!]
 	\centering
-	\begin{subfigure}[b]{0.395\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{prior.pdf} \caption{prior mass function of $N$} \label{fig:the_prior}
 	\end{subfigure} 
 	
@@ -405,12 +398,12 @@ We illustrate the Bayesian approach to the German tank problem through an exampl
 		\includegraphics[width=\textwidth]{the_sample.pdf} 
 	\caption{the data $s^{(k=3)}$} \label{fig:the_data}
 	\end{subfigure}
-	\begin{subfigure}[b]{0.395\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{likelihood.pdf} \caption{the likelihood function} 		
 		\label{fig:the_likelihood}
 	\end{subfigure}
 
-	\begin{subfigure}[b]{0.395\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{posterior_35.pdf} \caption{posterior mass function of $N$} \label{fig:the_posterior}
 	\end{subfigure}
 	\caption{A Bayesian approach to the German tank problem. 
@@ -451,23 +444,23 @@ For what it's worth, the data in Fig.~\ref{fig:the_data} was generated from a ta
 \subparagraph{Posterior predictive checking.} As a posterior predictive check, Fig.~\ref{fig:posterior_checking} shows how the observed serial numbers in the data $s^{(3)}$ compare with the probability of observing each serial number under the posterior mass function of $N$, according to eqn.~\ref{eq:posterior_check}.
 
 \paragraph{Sensitivity of the posterior to the prior.} Because of the subjectivity involved in constructing the prior, checking the sensitivity of the posterior to the prior is good practice \cite{van2021bayesian}. Fig.~\ref{fig:posterior_sensitivity} shows how the posterior mass function of $N$ changes with the upper-bound on the tank population $n_\text{max}$ we impose via the prior mass function of $N$ in eqn.~\ref{eq:prior}. 
-Eg., under $n_\text{max} =90$, the high-mass subset $\mathcal{H}_{0.2}$ expands to $\{15, ..., 30\}$.
+Eg., under $n_\text{max} =75$, the high-mass subset $\mathcal{H}_{0.2}$ expands to $\{15, ..., 29\}$.
 % Thus, our posterior point estimate and credible interval for the tank population size is not very sensitive to the choice of the upper bound $n_\text{max}$ in the prior.
 
 % interpret posterior more.
   \begin{figure}[h!]
         	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
         		\includegraphics[width=\textwidth]{posterior_check.pdf}
         		\caption{posterior predictive check} \label{fig:posterior_checking}
         	\end{subfigure}
 	
         	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{posterior_prior_sensitivity.pdf}
+		\includegraphics[width=0.575\textwidth]{posterior_prior_sensitivity.pdf}
         		\caption{sensitivity of the posterior to the prior} \label{fig:posterior_sensitivity}
         	\end{subfigure} 
-            \caption{Checking (a) the consistency of the data $s^{(3)}$ with the probability of observing each serial number under the tank-capturing process and the posterior mass function of $N$ and (b) the sensitivity of the posterior mass function of $N$ to the upper bound $n_{\text{max}}$ imposed by the prior mass function of $N$.}
+            \caption{Checking (a) the consistency of the data $s^{(3)}$ with the probability of observing each serial number under the tank-capturing process with tank population size governed by the posterior mass function of $N$ and (b) the sensitivity of the posterior mass function of $N$ to the upper bound $n_{\text{max}}$ imposed by the prior mass function of $N$.}
 \end{figure}
 
 \paragraph{Capturing more tanks.} Suppose we capture an additional 9 tanks and re-run the Bayesian analysis. Fig.~\ref{fig:moretanks} shows the updated posterior mass function of $N$. The high-mass credible subset $\mathcal{H}_{0.2}$ shrinks considerably, to $\{19, 20\}$. This shows how more data---increasing the number of tanks captured, $k$---generally reduces our uncertainty about the tank population size.
@@ -484,6 +477,25 @@ Eg., under $n_\text{max} =90$, the high-mass subset $\mathcal{H}_{0.2}$ expands 
 	     	\end{subfigure}
             \caption{The updated posterior mass function of $N$ (b) after we capture an additional 9 tanks with serial numbers in (a).
             	} \label{fig:moretanks}
+\end{figure}
+
+\paragraph{ The average high-mass subset and median median of the posterior over tank-capturing under a fixed tank population size.}
+We now investigate how, on average, over the stochastic outcomes of the tank-capturing process for a fixed tank population size, the posterior distribution $\pi_{\text{posterior}}(N=n \mid s^{(k)}=s^{(k)})$ depends on (i) the number of tanks captured, $k$, and (ii) the maximum of the support of the uniform prior, $n_{\text{max}}$.
+For a given $k$ and $n_{\text{max}}$, we conduct 50\,000 simulations that constitute (i) capturing $k$ random tanks from a population of 20 tanks, giving data $s^{(k)}$, (ii) computing the posterior $\pi_{\text{posterior}}(N=n \mid s^{(k)}=s^{(k)})$, then (iii) finding the high-mass subset $\mathcal{H}_a$ ($a=0.2$) and median of the posterior. Fig.~\ref{fig:H_a_study} displays (1, stems) the probability of each serial number $s$ belonging to $\mathcal{H}_a$ and (2, vertical line) the median of the median of the posterior, for $(k, n_{\text{max}})\in \{3, 6, 9\} \times \{25, 50, 100\}$.
+As $k$ increases, the high-mass subset $\mathcal{H}_a$ tends to (a) be less sensitive to $n_{\text{max}}$, as the data overrides the prior, and (b) shrink, as uncertainty decreases with more data.
+As $n_{\text{max}}$ increases, larger serial numbers become more likely to be included in $\mathcal{H}_a$.
+The median of the median of the posterior matches the true tank population size of 20 when $n_{\text{max}}=25$ or $k=9$. For $k\in\{3, 6\}$, the larger $n_{\text{max}}$ pull the median to the right of the true tank population size.
+ 
+  \begin{figure}[h!]
+        	\centering
+        	\includegraphics[width=\textwidth]{gtp_fig4.pdf}
+            \caption{
+            The average high-mass subset and median median of the posterior over tank-capturing under a fixed tank population size. 
+            Rows: different \#'s of tanks captured, $k$ (left).
+            Columns: different maximum tank population size entertained in the uniform prior, $n_{\text{max}}$ (top). 
+            For a particular $(k, n_{\text{max}})$, the stem plots show the probability of each serial number belonging to the high-mass subset $\mathcal{H}_{a=0.2}$. The vertical dashed line shows the median of the median of the posterior.
+            Red arrow shows the true tank population size, 20. 
+            	} \label{fig:H_a_study}
 \end{figure}
 
 \section{Discussion}
