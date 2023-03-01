@@ -459,7 +459,7 @@ function viz_all(m, Ω, k)
 	
 	fig = Figure()
 	ax  = Axis(fig[1, 1], 
-		xlabel="size of tank population, n",
+		xlabel=the_xlabel,
 		ylabel="probability"
 	)
 	_viz_all!(ax, m, Ω, k, Ω+viz_over_Ω)
@@ -485,7 +485,7 @@ function viz_post_sensitivity_to_prior(m::Int, n_maxs::Vector{Int}, k::Int;
 	for (i, n_max) in enumerate(n_maxs)
 		ax = Axis(fig[i, 1])
 		if i == 3
-		    ax.xlabel="size of tank population, n"
+		    ax.xlabel=the_xlabel
 		else
 			hidexdecorations!(ax)
 		end
@@ -622,7 +622,7 @@ function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1
 	# cols: n_maxes
 	fig = Figure(resolution=(700, 700))
 	axs = [Axis(fig[i, j]) for i = 1:length(ks), j = 1:length(ks)]
-	axs[end, 2].xlabel = "serial number, s"
+	axs[end, 2].xlabel = the_xlabel
 	axs[2, 1].ylabel = "probability s ∈ ℋₐ"
 	linkaxes!(axs[:]...)
 
