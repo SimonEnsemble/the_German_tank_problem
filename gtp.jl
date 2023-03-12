@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.20
+# v0.19.22
 
 using Markdown
 using InteractiveUtils
@@ -623,7 +623,7 @@ function viz_ℋₐ(Ωs::Vector{Int}, ks::Vector{Int}; n::Int=20, nb_sims::Int=1
 	fig = Figure(resolution=(700, 700))
 	axs = [Axis(fig[i, j]) for i = 1:length(ks), j = 1:length(ks)]
 	axs[end, 2].xlabel = the_xlabel
-	axs[2, 1].ylabel = "probability s ∈ ℋₐ"
+	axs[2, 1].ylabel = "probability n ∈ ℋₐ"
 	linkaxes!(axs[:]...)
 
 	ss = 1:45
