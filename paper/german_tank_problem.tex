@@ -203,13 +203,12 @@ and
 The posterior mass function of $N$ is the raw Bayesian solution to the German tank problem; its spread quantifies our posterior uncertainty about $N$. We may summarize the posterior by reporting (1) its median and (2) a small subset of the natural numbers on which most of the posterior mass sits---a \emph{credible set} that likely contains the tank population size. More, from the posterior, we can answer questions such as, "what is the probability that $N$ exceeds some threshold quantity $n^\prime$ that would alter military strategy?".
 %We specify the \emph{prior} probability mass function of $N$ to express our beliefs about the tank population size before the serial numbers are collected and considered. The prior may be flat and diffuse if we have no prior information, or it could concentrate its mass around some estimate obtained by another means.
 
-Next, we delve into the details of the Bayesian approach to the German tank problem and generate insights through an example. 
 
 % The raw, uncertainty-quantifying solution to the German tank problem under a Bayesian approach is the posterior probability mass function of the size of the tank population, $N$. 
 
 \section{The Bayesian approach to the German tank problem}
-We now tackle the German tank problem from a Bayesian standpoint. 
-
+We now delve into the details of the Bayesian approach to the German tank problem and illustrate via an example. 
+%We now tackle the German tank problem from a Bayesian standpoint. 
 For reference, the variables are listed in Tab.~\ref{tab:params}. 
 We use upper- and lower-case letters to represent random variables and realizations of them, respectively. 
 Throughout, we employ the indicator function associated with a set $A$:
@@ -237,13 +236,13 @@ Throughout, we employ the indicator function associated with a set $A$:
 \subsection{The prior distribution}
 We construct the \emph{prior probability mass function} $\pi_{\text{prior}}(N=n)$ to express a combination of our subjective beliefs and objective knowledge about the total number of tanks $N$ before the data \data are collected and considered. 
 
-The prior mass function we impose on $N$ depends on the context. 
+The prior mass function we appropriately impose on $N$ depends on the context. 
 If we do not possess prior information about the tank population size, we may adopt the principle of indifference and impose a \emph{diffuse} prior, e.g.\ a uniform distribution over a set of feasible tank population sizes. 
-On the other hand, if we have an estimate of the number of tanks from some other source of information or analysis, we may construct an \emph{informative} prior that concentrates its mass around this estimate. 
-A diffuse prior admits more uncertainty (measured by e.g.\ entropy \cite{murphy2022probabilistic}) about the tank population size than an informative prior \cite{van2021bayesian}.
+On the other hand, if we possess a rough estimate of the number of tanks from some other source of information or analysis, we may construct a more \emph{informative} prior that concentrates its mass around this estimate. 
+By definition, a diffuse prior admits more uncertainty (measured by e.g.\ entropy \cite{murphy2022probabilistic}) about the tank population size than a more informative prior \cite{van2021bayesian}.
 
 Thinking ahead about the posterior mass function of $N$, which balances the prior and the likelihood (the latter based on the data): 
-(1) an informative prior will have a larger impact on the posterior than a diffuse one \cite{van2021bayesian}, which "lets the data speak for itself" \cite{downey2021think};
+(1) a more informative prior will have a larger impact on the posterior than a diffuse one \cite{van2021bayesian}, which "lets the data speak for itself" \cite{downey2021think};
 (2) generally, as the number of captured tanks $k$ increases, we expect the prior to have a smaller impact on the posterior \cite{downey2021think} as the data "overwhelms" the prior.
 
 
