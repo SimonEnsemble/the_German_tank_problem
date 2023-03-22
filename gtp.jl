@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.22
+# v0.19.20
 
 using Markdown
 using InteractiveUtils
@@ -440,16 +440,16 @@ function _viz_all!(ax, m, Ω, k, xmax)
 	α = 0.2
 	# manual trunk
 	hlines!(0.0, color="black")
-	# prior
-	stem!(ax, ns, [prior(n, Ω) for n in ns],
-		trunkcolor=("black", 0.0), stemcolor=(colors["prior"], α), color=colors["prior"], label="prior", marker=markers["prior"])
 	# likelihood
 	stem!(ax, ns, [likelihood(m, n, k) for n in ns],
 		trunkcolor=("black", 0.0), stemcolor=(colors["likelihood"], α), color=colors["likelihood"], label="likelihood", marker=markers["likelihood"])
-	# posterior
+		# posterior
 	stem!(ax, ns, [direct_posterior(n, m, Ω, k) for n in ns],
 		trunkcolor=("black", 0.0), stemcolor=(colors["posterior"], α),
 		color=colors["posterior"], label="posterior", marker=markers["posterior"])
+	# prior
+	stem!(ax, ns, [prior(n, Ω) for n in ns],
+		trunkcolor=("black", 0.0), stemcolor=(colors["prior"], α), color=colors["prior"], label="prior", marker=markers["prior"])
 	xlims!(ax, -0.5, maximum(ns)+0.5)
 end
 

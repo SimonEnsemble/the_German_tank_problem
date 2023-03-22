@@ -123,7 +123,7 @@ As the Allies, we do not know $n$, but we captured (without replacement, of cour
 	\end{tabular}
 \end{center}
 
-Assuming (i) all tanks in the population were equally likely to be captured and (ii) $n$ is fixed over the time scale of capturing tanks, our objective is to estimate $n$ in light of the data \data.
+Assuming (i) all tanks in the population were equally likely to be captured and (ii) $n$ was/is fixed, our objective is to estimate $n$ in light of the data \data.
 %Find an estimator $\mathcal{T}: \{s_1, s_2, ..., s_k\} \mapsto \hat{n}$ that maps the set of observed serial numbers on the captured tanks to an estimate of the number of German tanks, $\hat{n}$.
 % Assume $n$ is fixed over the time scale of capturing the tanks.
 \end{tcolorbox}
@@ -520,7 +520,7 @@ The median of the median of the posterior matches the true tank population size 
 A strict assumption in the textbook-friendly German tank problem, which enables us to estimate the size of the population of tanks from a random sample of their (sequential) serial numbers, is that sampling is uniform. 
 To check consistency of the sample with this model of the tank-capturing process, Goodman \cite{goodman1954some} demonstrates a test of the hypothesis that the sample of serial numbers is from a uniform distribution. 
 Interesting extensions of the textbook German tank problem could involve modeling selection bias in the tank-capturing process. 
-Such bias could arise e.g.\ hypothetically, if older tanks with smaller serial numbers were more likely to be deployed in the fronts opened earlier in the war, where capturing tanks is more difficult than at less fortified fronts opened more recently.
+Such bias could arise e.g.\ hypothetically, if older tanks with smaller serial numbers were more likely to be deployed in the fronts opened earlier in the war, where capturing tanks is more difficult than at less fortified fronts opened more recently. Selection bias could manifest in e.g.\ clusters in the observed serial numbers.
 %	\item presuming the serial numbers were inscribed on a \emph{component} of the tank, adjusting (reducing) the estimate of the tank population size by considering the rate at which that component is replaced.  \cite{ruggles1947empirical}
 %\end{itemize}
 
@@ -543,7 +543,7 @@ To reduce vulnerability to serial number analysis for estimating production whil
 
 \section*{Acknowledgements}
 This work has been supported by US Department of Homeland Security Countering Weapons of Mass Destruction under CWMD Academic Research Initiative Cooperative Agreement \#21CWDARI00043. This support does not constitute an express or implied endorsement on the part of the Government.
-Thanks to Bernhard Konrad for providing detailed feedback on the first draft, to my students Gbenga Fabusola, Adrian Henle, and Paul Morris for feedback on the introduction, and to the anonymous reviewer for providing the idea for Sec.~\ref{sec:sims}.
+Thanks to Bernhard Konrad and Edward Celarier for providing detailed feedback on the manuscript, my students Gbenga Fabusola, Adrian Henle, and Paul Morris for feedback on the introduction, the anonymous reviewer for providing the idea for Sec.~\ref{sec:sims}, and Paul Campbell for informing me about the example of iPhone estimation.
 
 \bibliography{refs}
 \bibliographystyle{unsrt}
