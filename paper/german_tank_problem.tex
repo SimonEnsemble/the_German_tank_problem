@@ -154,7 +154,7 @@ Goodman \cite{goodman1952serial,goodman1954some} derives the minimum-variance, u
 To intuit $\hat{n}$, note (i) $n$ must be greater than or equal to $m^{(k)}$ and (ii) if we observe large (small) gaps between the serial numbers \data after sorting them (incl.\ the gap preceding the smallest serial number), then $n$ is likely (unlikely) to be much greater than $m^{(k)}$. 
 The estimator of $n$ in eqn.~\ref{eq:nhat} quantifies how far beyond the maximum serial number $m^{(k)}$ we should estimate the tank population size, based on the gaps; $m^{(k)}/k-1$ is the average size of the gaps.
 % between the sorted serial numbers (including the gap preceding the smallest serial number).
-Goodman \cite{goodman1952serial} also derives a frequentist, two-sided $1-\alpha$ confidence interval for $n$: $m^{(k)}\leq n \leq x$, where $x$ is the largest integer satisfying $(m^{(k)}-1)_{k} /(x)_k \geq \alpha$ with notation for the falling factorial in eqn.~\ref{eq:falling_factorial}.
+Goodman \cite{goodman1952serial} also derives a frequentist, two-sided $1-\alpha$ confidence interval for $n$: $m^{(k)}\leq n \leq x$, where $x$ is the largest integer satisfying $(m^{(k)}-1)_{k} /(x)_k \geq \alpha$ with notation defined in eqn.~\ref{eq:falling_factorial}.
 
 \paragraph{For pedagogy.} Champkin highlights the application of statistics to estimate German tank production during WWII as a "great moment in statistics" \cite{grajalez2013great}. 
 Johnson lists and evaluates several intuitive point estimators for the size of the tank population \cite{johnson1994estimating}. 
@@ -173,7 +173,7 @@ Lee and Miller generalize the German tank problem to the settings where the seri
 % with replacement?
 
 \subsection{Overview of the Bayesian approach to the German tank problem}
-Adpoting a Bayesian perspective \cite{bolstad2016introduction,downey2021think,van2021bayesian}, we treat the (unknown) total number of tanks as a discrete random variable $N$ to model our uncertainty about it. A probability mass function of $N$ assigns a probability to each possible tank population size $n$. This probability is a measure of our degree of belief, perhaps with some basis in knowledge/data, that the tank population size is $n$ \cite{ghosh2006introduction}. The spread exhibited by the probability mass function of $N$ reflects uncertainty. 
+Adopting a Bayesian perspective \cite{bolstad2016introduction,downey2021think,van2021bayesian}, we treat the (unknown) total number of tanks as a discrete random variable $N$ to model our uncertainty about it. A probability mass function of $N$ assigns a probability to each possible tank population size $n$. This probability is a measure of our degree of belief, perhaps with some basis in knowledge/data, that the tank population size is $n$ \cite{ghosh2006introduction}. The spread of the mass function of $N$ over the integers reflects uncertainty. 
 
 The observed serial numbers \data convey information about the tank population size. Hence, the probability mass function of $N$ changes after the data \data are collected and considered. I.e., $N$ has a \emph{prior} and \emph{posterior} probability mass function.
 
