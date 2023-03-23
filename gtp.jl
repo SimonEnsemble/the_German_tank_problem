@@ -440,17 +440,18 @@ function _viz_all!(ax, m, Ω, k, xmax)
 	α = 0.2
 	# manual trunk
 	hlines!(0.0, color="black")
-	# likelihood
-	stem!(ax, ns, [likelihood(m, n, k) for n in ns],
-		trunkcolor=("black", 0.0), stemcolor=(colors["likelihood"], α), color=colors["likelihood"], label="likelihood", marker=markers["likelihood"])
-		# posterior
-	stem!(ax, ns, [direct_posterior(n, m, Ω, k) for n in ns],
-		trunkcolor=("black", 0.0), stemcolor=(colors["posterior"], α),
-		color=colors["posterior"], label="posterior", marker=markers["posterior"])
 	# prior
 	stem!(ax, ns, [prior(n, Ω) for n in ns],
 		trunkcolor=("black", 0.0), stemcolor=(colors["prior"], α), color=colors["prior"], label="prior", marker=markers["prior"])
-	xlims!(ax, -0.5, maximum(ns)+0.5)
+	# likelihood
+	stem!(ax, ns, [likelihood(m, n, k) for n in ns],
+		trunkcolor=("black", 0.0), stemcolor=(colors["likelihood"], α), color=colors["likelihood"], label="likelihood", marker=markers["likelihood"])
+	# posterior
+	stem!(ax, ns, [direct_posterior(n, m, Ω, k) for n in ns],
+		trunkcolor=("black", 0.0), stemcolor=(colors["posterior"], α),
+		color=colors["posterior"], label="posterior", marker=markers["posterior"])
+
+	xlims!(ax, -1, maximum(ns)+0.5)
 end
 
 # ╔═╡ 472507c4-45a1-4567-9d9f-53bdb872ec1b
@@ -489,9 +490,9 @@ function viz_post_sensitivity_to_prior(m::Int, n_maxs::Vector{Int}, k::Int;
 		else
 			hidexdecorations!(ax)
 		end
-		
-		_viz_all!(ax, m, n_max, k, 80)
 		_viz_summary_posterior!(ax, m, n_max, k)
+		_viz_all!(ax, m, n_max, k, 80)
+		
 		prior_max_label!(fig, n_max, i)
 		if i == 1
 			axislegend(position=:rc)
